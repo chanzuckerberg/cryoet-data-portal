@@ -19,7 +19,7 @@ The project uses a specific Node.js version defined in `.nvmrc`:
 nvm use
 ```
 
-This activates the Node.js version specified in `.nvmrc`.
+This activates the Node.js version specified in `.nvmrc` (Node.js 24).
 
 ## Install Dependencies
 
@@ -57,11 +57,11 @@ The default values in `.env.example` connect to the production API, which is sui
 pnpm dev
 ```
 
-This starts three concurrent processes:
+This first runs GraphQL codegen and builds Neuroglancer, then starts three concurrent processes:
 
-1. **GraphQL Codegen** - Watches for query changes and regenerates TypeScript types
-2. **Remix Dev Server** - Handles hot reload for React components and routes
-3. **TypeScript CSS Modules** - Generates type definitions for CSS modules
+1. **GraphQL Codegen** (`dev:codegen`) - Watches for query changes and regenerates TypeScript types
+2. **Dev Server** (`dev:server`) - Express server with a Vite dev server in middleware mode, serving the React Router app with hot module replacement (HMR) for components and routes
+3. **TypeScript CSS Modules** (`dev:tcm`) - Generates type definitions for CSS modules
 
 Once started, open [http://localhost:8080](http://localhost:8080) in your browser.
 

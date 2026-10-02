@@ -183,7 +183,8 @@ export function DatasetCard({ dataset }: { dataset: Dataset }) {
 Components that fetch data and manage state:
 
 ```typescript
-import { useLoaderData } from '@remix-run/react'
+import { useLoaderData } from 'react-router'
+
 import { useFilter } from 'app/hooks/useFilter'
 import { DatasetCard } from './DatasetCard'
 

@@ -7,7 +7,7 @@ This document describes the client-side data fetching architecture used for the 
 
 | Layer                | Implementation                    | Files                                                                                              |
 | -------------------- | --------------------------------- | -------------------------------------------------------------------------------------------------- |
-| API Routes           | Remix loaders returning JSON      | [`routes/api.deposition-*.ts`](../../../packages/data-portal/app/routes/)                             |
+| API Routes           | Resource route loaders (JSON)     | [`routes/api.deposition-*.ts`](../../../packages/data-portal/app/routes/)                             |
 | API Communication    | `fetchDepositionApi()` utility    | [`utils/deposition-api.ts`](../../../packages/data-portal/app/utils/deposition-api.ts)                |
 | Query Wrapper        | `useDepositionQuery()` hook       | [`hooks/useDepositionQuery.ts`](../../../packages/data-portal/app/hooks/useDepositionQuery.ts)        |
 | Domain Hooks         | Feature-specific query hooks      | [`queries/use*ForDeposition.ts`](../../../packages/data-portal/app/queries/)                          |
@@ -28,7 +28,7 @@ The Deposition feature requires fetching data from our GraphQL API on the client
 
 ### The Solution (Current Implementation)
 
-We use a layered architecture that routes client-side requests through Remix API routes:
+We use a layered architecture that routes client-side requests through React Router resource routes (API routes):
 
 ```
 React Component
@@ -38,7 +38,7 @@ Domain Hook (e.g., useDatasetsForDeposition)
 useDepositionQuery (React Query wrapper)
     ↓ (calls)
 fetchDepositionApi() → HTTP GET → /api/deposition-*
-    ↓ (Remix loader)
+    ↓ (resource route loader)
 API Route (server-side)
     ↓ (executes)
 GraphQL Query via Apollo Client
@@ -72,11 +72,11 @@ JSON Response → React Query cache → Component
 
 ### Overview
 
-Remix API routes serve as the server-side boundary between client code and GraphQL. Each route:
+React Router resource routes (route modules with a `loader` but no default component export) serve as the server-side boundary between client code and GraphQL. Each route:
 
 1. Parses and validates URL parameters
 2. Executes GraphQL queries via Apollo Client
-3. Returns JSON responses
+3. Returns JSON `Response` objects
 
 ### Available Routes
 
@@ -94,7 +94,7 @@ Remix API routes serve as the server-side boundary between client code and Graph
 
 ```typescript
 // routes/api.deposition-datasets.ts
-import { LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { LoaderFunctionArgs } from 'react-router'
 import { getDatasetsForDepositionViaAnnotationShapes } from 'app/graphql/getDatasetsForDepositionV2.server'
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -516,7 +516,7 @@ useDepositionQuery({
 
    ```typescript
    export async function loader({ request }: LoaderFunctionArgs) {
-     // Parse params, call GraphQL, return JSON
+     // Parse params, call GraphQL, return a JSON Response
    }
    ```
 

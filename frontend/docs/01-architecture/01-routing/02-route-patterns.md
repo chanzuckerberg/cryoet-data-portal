@@ -35,7 +35,7 @@ This document describes the 6 distinct route patterns used throughout the CryoET
 ```typescript
 // app/routes/browse-data.datasets.tsx
 
-import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { LoaderFunctionArgs } from 'react-router'
 import { apolloClientV2 } from 'app/apollo.server'
 import { getDatasetsV2 } from 'app/graphql/getDatasetsV2.server'
 import { QueryParams } from 'app/constants/query'
@@ -56,7 +56,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     client: apolloClientV2,
   })
 
-  return json({ datasets: data })
+  return { datasets: data }
 }
 
 export default function BrowseDatasetsPage() {
@@ -114,8 +114,7 @@ export default function BrowseDatasetsPage() {
 ```typescript
 // app/routes/runs.$id.tsx
 
-import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
-import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
+import { LoaderFunctionArgs, ShouldRevalidateFunctionArgs } from 'react-router'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 import { QueryParams } from 'app/constants/query'
@@ -133,7 +132,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     throw new Response(null, { status: 404, statusText: `Run ${id} not found` })
   }
 
-  return json({ run: data.runs[0] })
+  return { run: data.runs[0] }
 }
 
 // Only refetch when specific params change
@@ -240,36 +239,37 @@ export default function PrivacyPage() {
 ```typescript
 // app/routes/competition.tsx
 
-import { typedjson } from 'remix-typedjson'
-import { getLocalFileContent } from 'app/utils/repo.server'
-import { getWinningDepositions } from 'app/graphql/getWinningDepositions.server'
+import { getPackageMdxContent } from 'app/utils/repo.server'
+import { getWinningDepositions } from 'app/graphql/getWinningDepositionsV2.server'
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function loader() {
   const prefix = 'app/components/MLChallenge/MdxContent'
 
-  // Load multiple MDX files in parallel
-  const [aboutContent, glossaryContent, howToContent] = await Promise.all([
-    getLocalFileContent(`${prefix}/AboutTheCompetition.mdx`, { raw: true }),
-    getLocalFileContent(`${prefix}/Glossary.mdx`, { raw: true }),
-    getLocalFileContent(`${prefix}/HowToParticipate.mdx`, { raw: true }),
-  ])
-
   // Fetch dynamic data
-  const { data } = await getWinningDepositions({ client: apolloClientV2 })
-
-  return typedjson({
-    aboutContent,
-    glossaryContent,
-    howToContent,
-    winningDepositions: data.depositions,
+  const { data } = await getWinningDepositions({
+    limit: 10,
+    orderBy: OrderBy.Asc,
+    client: apolloClientV2,
   })
+
+  // Load multiple MDX files (relative to the package directory) in parallel
+  const [aboutTheCompetitionCompleted, glossary /* , ... */] =
+    await Promise.all([
+      getPackageMdxContent(`${prefix}/AboutTheCompetition-completed.mdx`),
+      getPackageMdxContent(`${prefix}/Glossary.mdx`),
+      // ...
+    ])
+
+  return {
+    aboutTheCompetitionCompleted,
+    glossary,
+    // ...
+    winningDepositions: data,
+  }
 }
 
 export default function CompetitionPage() {
-  const showPostChallenge = useFeatureFlag('postMlChallenge')
-
-  // Feature flag switches between active/completed competition views
-  return showPostChallenge ? <CompletedMLChallenge /> : <MLChallenge />
+  return <CompletedMLChallenge />
 }
 ```
 
@@ -277,7 +277,7 @@ export default function CompetitionPage() {
 
 | File | Purpose |
 |------|---------|
-| [`app/utils/repo.server.ts`](../../../packages/data-portal/app/utils/repo.server.ts) | `getMdxContent()`, `getLocalFileContent()` |
+| [`app/utils/repo.server.ts`](../../../packages/data-portal/app/utils/repo.server.ts) | `getMdxContent()`, `getPackageMdxContent()`, `getLocalFileContent()` |
 | [`app/components/MDX/MdxContent.tsx`](../../../packages/data-portal/app/components/MDX/MdxContent.tsx) | MDX renderer with custom components |
 | [`/website-docs/`](../../../../website-docs/) | Static MDX content files |
 
@@ -302,7 +302,7 @@ export default function CompetitionPage() {
 // app/routes/view.runs.$id.tsx
 
 import { lazy, Suspense } from 'react'
-import { typedjson } from 'remix-typedjson'
+import { LoaderFunctionArgs } from 'react-router'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 
 // Lazy load the heavy viewer component
@@ -318,17 +318,18 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     throw new Response(null, { status: 400 })
   }
 
-  const { data } = await getRunByIdV2({ id, client: apolloClientV2 })
+  const { data: responseV2 } = await getRunByIdV2({ id, client: apolloClientV2 })
 
-  if (data.runs.length === 0) {
+  if (responseV2.runs.length === 0) {
     throw new Response(null, { status: 404 })
   }
 
-  return typedjson({ run: data.runs[0] })
+  return { v2: responseV2 }
 }
 
 export default function RunByIdViewerPage() {
-  const { run } = useTypedLoaderData<typeof loader>()
+  // useRunById() reads the loader data with useLoaderData()
+  const { run } = useRunById()
 
   return (
     <Suspense fallback={<ViewerLoadingState />}>
@@ -386,7 +387,7 @@ api.deposition-run-counts.ts  → /api/deposition-run-counts
 ```typescript
 // app/routes/api.annotations-for-run.ts
 
-import { LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { LoaderFunctionArgs } from 'react-router'
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url)
@@ -426,7 +427,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 ```typescript
 // app/routes/api.event.ts - Analytics proxy
 
-import { ActionFunctionArgs } from '@remix-run/server-runtime'
+import { ActionFunctionArgs } from 'react-router'
 
 export async function action({ request }: ActionFunctionArgs) {
   const body = await request.text()
@@ -476,7 +477,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 **Use when:** Client-side data fetching is needed and direct browser-to-GraphQL requests would face CORS issues.
 
 **Key characteristics:**
-- Remix API routes act as server-side proxies
+- React Router resource routes (`api.*.ts`) act as server-side proxies
 - React Query manages client-side caching and state
 - Avoids CORS by making same-origin requests
 - Used for complex paginated data within detail pages
@@ -490,7 +491,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 ```
 Browser (Client)
     ↓ fetch (same-origin, no CORS)
-Remix API Route (/api/deposition-datasets)
+React Router API Route (/api/deposition-datasets)
     ↓ Apollo Client (server-side)
 GraphQL Endpoint (no CORS issues)
     ↓
@@ -504,7 +505,7 @@ React Query caches and manages state
 ```typescript
 // app/routes/api.deposition-datasets.ts
 
-import { LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { LoaderFunctionArgs } from 'react-router'
 import { getDatasetsForDeposition } from 'app/graphql/getDatasetsForDeposition.server'
 
 export async function loader({ request }: LoaderFunctionArgs) {

@@ -6,7 +6,7 @@ Welcome to the CryoET Data Portal frontend documentation! This comprehensive gui
 
 This documentation covers everything you need to work productively with the CryoET Data Portal frontend. Whether you're joining the team, working across the stack, or contributing to the open-source project, you'll find the resources you need here.
 
-The frontend is a modern React application built with Remix, TypeScript, GraphQL, and Tailwind CSS. It follows established patterns and best practices to ensure maintainability and performance.
+The frontend is a modern React application built with React Router v7 (framework mode, formerly Remix), Vite, TypeScript, GraphQL, and Tailwind CSS. It follows established patterns and best practices to ensure maintainability and performance.
 
 ---
 
@@ -45,7 +45,7 @@ Architecture documentation is organized by topic:
 
 #### Routing
 
-- [Remix Fundamentals](./01-architecture/01-routing/01-remix-fundamentals.md)
+- [React Router Fundamentals](./01-architecture/01-routing/01-react-router-fundamentals.md)
 - [Route Patterns](./01-architecture/01-routing/02-route-patterns.md)
 
 #### Data

@@ -1,12 +1,13 @@
-# Remix Patterns
+# React Router Fundamentals
 
-This document covers the Remix-specific patterns and conventions used in the CryoET Data Portal frontend, including route organization, data loading, navigation, and server-side rendering.
+This document covers the React Router (framework mode, formerly Remix) patterns and conventions used in the CryoET Data Portal frontend, including route organization, data loading, navigation, and server-side rendering.
 
 
 ## Quick Reference
 
 | Pattern | Location | Purpose |
 |---------|----------|---------|
+| Route config | `app/routes.ts` | Wires up file-based routes via `flatRoutes()` |
 | Route files | `app/routes/` | Page components and data loaders |
 | Layout routes | `browse-data.tsx` | Shared UI with `<Outlet />` |
 | Dynamic routes | `datasets.$id.tsx` | Parameter-based pages |
@@ -18,7 +19,17 @@ This document covers the Remix-specific patterns and conventions used in the Cry
 
 ## Route Structure and Organization
 
-Routes are located in [`app/routes/`](../../../packages/data-portal/app/routes/) and follow Remix's file-based routing conventions.
+Routes are located in [`app/routes/`](../../../packages/data-portal/app/routes/) and follow React Router's flat-file routing convention. They are registered by [`app/routes.ts`](../../../packages/data-portal/app/routes.ts), which uses `flatRoutes()` from `@react-router/fs-routes`:
+
+```typescript
+// app/routes.ts
+import type { RouteConfig } from '@react-router/dev/routes'
+import { flatRoutes } from '@react-router/fs-routes'
+
+export default flatRoutes() satisfies RouteConfig
+```
+
+The route config is only evaluated at build time (by the `reactRouter()` Vite plugin), so `@react-router/fs-routes` is a dev dependency.
 
 ### Naming Conventions
 
@@ -61,7 +72,6 @@ All data fetching happens server-side via `loader` functions. The codebase uses 
 
 ```typescript
 // app/routes/_index.tsx
-import { json } from '@remix-run/server-runtime'
 import { apolloClientV2 } from 'app/apollo.server'
 
 const LANDING_PAGE_DATA_QUERY = gql(`
@@ -77,8 +87,16 @@ export async function loader() {
     query: LANDING_PAGE_DATA_QUERY,
   })
 
-  return json(data)
+  return data
 }
+```
+
+Loaders return plain objects. With single fetch, React Router serializes them with [turbo-stream](https://github.com/jacob-ebey/turbo-stream), which preserves types like `Date`, `Map` and `Set`. `json()` and `defer()` are no longer used. When a loader needs to set a status code or headers, wrap the value with `data()`:
+
+```typescript
+import { data } from 'react-router'
+
+return data(value, { status: 201, headers: { 'Cache-Control': 'max-age=60' } })
 ```
 
 ### Loader with Request Parameters
@@ -87,7 +105,7 @@ For routes that need URL parameters or search params:
 
 ```typescript
 // app/routes/datasets.$id.tsx
-import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { LoaderFunctionArgs } from 'react-router'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const id = params.id ? +params.id : NaN
@@ -117,20 +135,21 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     })
   }
 
-  return json({ v2: responseV2 })
+  return { v2: responseV2 }
 }
 ```
 
 ### Accessing Loader Data
 
-The codebase uses `remix-typedjson` for type-safe loader data access:
+Components read loader data with `useLoaderData` from `react-router`, typed either with `typeof loader` or an explicit type:
 
 ```typescript
 // Direct usage in route component
-import { useTypedLoaderData } from 'remix-typedjson'
+import { useLoaderData } from 'react-router'
 
 export default function DatasetByIdPage() {
-  const { v2 } = useTypedLoaderData<{ v2: GetDatasetByIdV2Query }>()
+  const { v2 } = useLoaderData<{ v2: GetDatasetByIdV2Query }>()
+  // or: const { v2 } = useLoaderData<typeof loader>()
   // ...
 }
 ```
@@ -141,11 +160,11 @@ Complex routes abstract loader data into custom hooks for cleaner components:
 
 ```typescript
 // app/hooks/useDatasetById.ts
-import { useTypedLoaderData } from 'remix-typedjson'
+import { useLoaderData } from 'react-router'
 import { GetDatasetByIdV2Query } from 'app/__generated_v2__/graphql'
 
 export function useDatasetById() {
-  const { v2 } = useTypedLoaderData<{
+  const { v2 } = useLoaderData<{
     v2: GetDatasetByIdV2Query
   }>()
 
@@ -216,15 +235,18 @@ A typical route file follows this structure:
 
 ```typescript
 // 1. Imports
-import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
-import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
+import {
+  LoaderFunctionArgs,
+  MetaFunction,
+  ShouldRevalidateFunctionArgs,
+} from 'react-router'
 
 // 2. GraphQL query (if inline)
 const MY_QUERY = gql(`...`)
 
 // 3. Loader function
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  // Fetch data server-side
+  // Fetch data server-side and return a plain object
 }
 
 // 4. Meta function (optional)
@@ -276,16 +298,15 @@ Layout routes render shared UI and use `<Outlet />` for child content.
 
 ```typescript
 // app/routes/browse-data.tsx
-import { Outlet } from '@remix-run/react'
-import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { Outlet } from 'react-router'
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function loader() {
   // Fetch data shared across all child routes
   const { data } = await apolloClientV2.query({
     query: GET_TOOLBAR_DATA_QUERY,
   })
 
-  return json(data)
+  return data
 }
 
 export function shouldRevalidate() {
@@ -321,7 +342,7 @@ URL search parameters are the **primary source of truth** for filter state, maki
 
 ### useQueryParam Hook
 
-The [`useQueryParam`](../../../packages/data-portal/app/hooks/useQueryParam.ts) hook provides a React state-like API for managing individual URL search parameters. It wraps Remix's `useSearchParams` and returns a tuple similar to `useState`.
+The [`useQueryParam`](../../../packages/data-portal/app/hooks/useQueryParam.ts) hook provides a React state-like API for managing individual URL search parameters. It wraps React Router's `useSearchParams` and returns a tuple similar to `useState`.
 
 **Features:**
 - Returns `[value, setValue]` tuple for reading and writing a single query parameter
@@ -350,7 +371,7 @@ setPage(null)
 For bulk parameter updates:
 
 ```typescript
-import { useSearchParams } from '@remix-run/react'
+import { useSearchParams } from 'react-router'
 
 const [, setSearchParams] = useSearchParams()
 
@@ -381,7 +402,7 @@ export enum QueryParams {
 
 ## Revalidation Patterns
 
-Remix automatically revalidates loaders after navigation. The `shouldRevalidate` function controls this behavior to avoid unnecessary refetches.
+React Router automatically revalidates loaders after navigation. On client-side navigations, loader data is fetched with single fetch requests to `/<path>.data`. The `shouldRevalidate` function controls this behavior to avoid unnecessary refetches.
 
 ### Static Data - Never Revalidate
 
@@ -398,13 +419,13 @@ export function shouldRevalidate() {
 The [`shouldRevalidatePage`](../../../packages/data-portal/app/utils/revalidate.ts) utility determines whether a route's loader should refetch data based on URL parameter changes.
 
 **How it works:**
-- Accepts Remix's `ShouldRevalidateFunctionArgs` plus an optional `paramsToRefetch` array
+- Accepts React Router's `ShouldRevalidateFunctionArgs` plus an optional `paramsToRefetch` array
 - Compares current and next URL search params against a list of parameters to watch
 - Returns `false` (skip refetch) if:
   - The request method is GET
   - The route `id` parameter hasn't changed
   - None of the watched parameters have changed
-- Otherwise, returns `defaultShouldRevalidate` to let Remix decide
+- Otherwise, returns `defaultShouldRevalidate` to let React Router decide
 
 This prevents unnecessary data fetching when users navigate or interact with UI elements that don't affect the data being displayed.
 
@@ -434,7 +455,7 @@ This ensures the loader only refetches when filter parameters change, not on eve
 
 ## API Routes
 
-API routes provide server-side endpoints. They serve two purposes in this codebase:
+API routes are resource routes (no default export) that provide server-side endpoints and return `Response` objects directly, so they are unaffected by single fetch serialization. They serve two purposes in this codebase:
 
 ### 1. Utility Routes
 
@@ -444,7 +465,7 @@ Some API routes provide server-side utilities:
 
 ```typescript
 // app/routes/api.logs.ts
-import { ActionFunctionArgs } from '@remix-run/server-runtime'
+import { ActionFunctionArgs } from 'react-router'
 
 export async function action({ request }: ActionFunctionArgs) {
   const { logs } = (await request.json()) as LogApiRequestBody
@@ -459,7 +480,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
 ```typescript
 // app/routes/api.event.ts
-import { ActionFunctionArgs } from '@remix-run/server-runtime'
+import { ActionFunctionArgs } from 'react-router'
 
 export async function action({ request, context }: ActionFunctionArgs) {
   let { clientIp } = context as ServerContext
@@ -489,7 +510,7 @@ Most API routes exist to **work around CORS issues**. They act as server-side pr
 
 ```typescript
 // app/routes/api.deposition-runs.ts
-import { LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { LoaderFunctionArgs } from 'react-router'
 import {
   createJsonResponse,
   handleApiError,
@@ -553,14 +574,18 @@ The root layout ([`app/root.tsx`](../../../packages/data-portal/app/root.tsx)) s
 export async function loader({ request }: LoaderFunctionArgs) {
   const locale = await i18next.getLocale(request)
 
-  return typedjson({
+  return {
     locale,
-    ENV: {
-      API_URL: process.env.API_URL,
-      API_URL_V2: process.env.API_URL_V2,
-      ENV: process.env.ENV,
-    },
-  })
+    ENV: defaults(
+      {
+        API_URL: process.env.API_URL,
+        API_URL_V2: process.env.API_URL_V2,
+        ENV: process.env.ENV,
+        LOCALHOST_PLAUSIBLE_TRACKING: process.env.LOCALHOST_PLAUSIBLE_TRACKING,
+      },
+      ENVIRONMENT_CONTEXT_DEFAULT_VALUE,
+    ),
+  }
 }
 
 export function shouldRevalidate() {
@@ -575,7 +600,7 @@ Material-UI requires Emotion cache setup for proper SSR. The root component uses
 ```typescript
 const Document = withEmotionCache(
   ({ children, title }, emotionCache) => {
-    const { ENV, locale } = useTypedLoaderData<typeof loader>()
+    const { ENV, locale } = useLoaderData<typeof loader>()
 
     return (
       <html lang={locale}>
@@ -584,6 +609,7 @@ const Document = withEmotionCache(
           <EnvironmentContext.Provider value={ENV}>
             <Layout>{children}</Layout>
           </EnvironmentContext.Provider>
+          <ScrollRestoration />
           <Scripts />
         </body>
       </html>
@@ -630,10 +656,11 @@ if (responseV2.datasets.length === 0) {
 }
 ```
 
-Remix automatically renders the appropriate error boundary for thrown responses.
+React Router automatically renders the appropriate error boundary for thrown responses (use `isRouteErrorResponse` from `react-router` to detect them).
 
 ## Next Steps
 
 - [GraphQL Integration](../02-data/01-graphql-integration.md) - Apollo Client, codegen, queries
 - [State Management](../03-state/01-state-management.md) - Jotai atoms, URL state, contexts
 - [Styling System](../05-styling/01-styling-system.md) - Tailwind + CSS Modules + MUI
+- [React Router framework docs](https://reactrouter.com/start/framework/routing) - Routing, [data loading](https://reactrouter.com/start/framework/data-loading), and the [Remix upgrade guide](https://reactrouter.com/upgrading/remix)

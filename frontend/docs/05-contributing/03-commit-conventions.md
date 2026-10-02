@@ -112,7 +112,7 @@ docs: add GraphQL integration guide
 docs(contributing): update PR guidelines
 
 # build - Build system (no version bump)
-build: update Remix to v2.17.0
+build: update React Router to v7.18.4
 build: add neuroglancer build step to CI
 
 # ci - CI/CD changes (no version bump)

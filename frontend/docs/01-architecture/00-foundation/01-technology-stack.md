@@ -7,9 +7,10 @@ This document provides a comprehensive overview of the technologies used in the 
 
 | Category | Technology |
 |----------|------------|
-| Framework | Remix |
+| Framework | React Router v7 (framework mode, formerly Remix) |
 | UI Library | React |
 | Language | TypeScript |
+| Build Tool | Vite |
 | GraphQL Client | Apollo Client |
 | State Management | Jotai |
 | CSS Framework | Tailwind CSS |
@@ -18,7 +19,7 @@ This document provides a comprehensive overview of the technologies used in the 
 | Unit Testing | Jest |
 | E2E Testing | Playwright |
 | Package Manager | pnpm |
-| Runtime | Node.js |
+| Runtime | Node.js 24 |
 
 > **Note:** For current versions, see `package.json`. Node.js version is specified in `.nvmrc`.
 
@@ -26,11 +27,11 @@ This document provides a comprehensive overview of the technologies used in the 
 
 ## Core Framework
 
-### Remix
+### React Router (Framework Mode)
 
-Remix is a full-stack React framework that provides server-side rendering (SSR), route-based code splitting, and a streamlined data loading model.
+React Router v7 in framework mode is a full-stack React framework that provides server-side rendering (SSR), route-based code splitting, and a streamlined data loading model. It is the successor to Remix v2 — the app was originally built on Remix and has since been migrated to React Router v7 (see the [Remix upgrade guide](https://reactrouter.com/upgrading/remix)).
 
-**Why Remix over Next.js?**
+**Why Remix (now React Router) over Next.js?**
 
 [Internal benchmarks](https://github.com/chanzuckerberg/cryoet-data-portal/issues/50#issuecomment-1741672041) (September 2023) comparing both frameworks with identical dependencies (Tailwind, Material-UI, SDS components) showed significant performance advantages:
 
@@ -43,17 +44,18 @@ Remix is a full-stack React framework that provides server-side rendering (SSR),
 - **Route-based code splitting** - Each route is a separate bundle, reducing initial load time
 - **Server-side data loading** - Loaders fetch data before rendering, eliminating client-side waterfalls
 - **Progressive enhancement** - Forms and navigation work without JavaScript
-- **Built-in CSS bundling** - Simplified asset management
+- **Vite-based build** - CSS and assets are bundled by Vite through the `reactRouter()` plugin
 
 **Related packages:**
-- `@remix-run/react` - React integration
-- `@remix-run/node` - Server-side runtime
-- `@remix-run/express` - Express server adapter
-- `@remix-run/dev` - Development tooling
+- `react-router` - Routing, data APIs, and React components/hooks
+- `@react-router/node` - Node.js runtime helpers
+- `@react-router/express` - Express server adapter (`createRequestHandler`)
+- `@react-router/dev` - Vite plugin, CLI (`react-router build`) and route config types
+- `@react-router/fs-routes` - Flat-file route convention (`flatRoutes()`)
 
-**Configuration:** [`vite.config.ts`](../../../packages/data-portal/vite.config.ts)
+**Configuration:** [`vite.config.ts`](../../../packages/data-portal/vite.config.ts), [`react-router.config.ts`](../../../packages/data-portal/react-router.config.ts) (`ssr: true`), and [`app/routes.ts`](../../../packages/data-portal/app/routes.ts)
 
-For detailed patterns, see [Remix Fundamentals](../01-routing/01-remix-fundamentals.md).
+For detailed patterns, see [React Router Fundamentals](../01-routing/01-react-router-fundamentals.md).
 
 ---
 
@@ -95,12 +97,13 @@ TypeScript provides static type checking with **strict mode enabled** for maximu
 
 The application runs on Node.js with Express as the HTTP server.
 
-**Node version** is specified in [`.nvmrc`](../../../packages/data-portal/.nvmrc) - use `nvm use` to activate.
+**Node version** (Node.js 24) is specified in [`.nvmrc`](../../../.nvmrc) - use `nvm use` to activate.
 
 **Server features:**
 - Gzip compression via `compression` middleware
 - Request logging via `morgan`
-- Hot module reloading in development
+- React Router request handling via `createRequestHandler` from `@react-router/express`
+- Hot module replacement in development via a Vite dev server in middleware mode
 
 **Configuration:** [`server.ts`](../../../packages/data-portal/server.ts)
 
@@ -189,9 +192,9 @@ React Query manages server state separately from UI state, providing caching, ba
 
 The application uses a layered state management approach. For detailed patterns, see [State Management](../03-state/01-state-management.md).
 
-### Server State (Remix Loaders)
+### Server State (Route Loaders)
 
-Server state is data fetched from the GraphQL API via Remix loaders. This is the primary source of data in the application - covered in detail in the [GraphQL & Data Layer](#graphql--data-layer) section above.
+Server state is data fetched from the GraphQL API via React Router loaders. This is the primary source of data in the application - covered in detail in the [GraphQL & Data Layer](#graphql--data-layer) section above.
 
 ---
 
@@ -211,7 +214,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
 ### URL State
 
-Remix's routing system supports URL-based state through search parameters (`?query=value`). The filter system uses URL state extensively to make filters shareable and bookmarkable.
+React Router supports URL-based state through search parameters (`?query=value`). The filter system uses URL state extensively to make filters shareable and bookmarkable.
 
 ```typescript
 import { useQueryParam } from 'app/hooks/useQueryParam'
@@ -369,7 +372,7 @@ i18next is the internationalization framework with server and client support.
 **Packages:**
 - `i18next` - Core library
 - `react-i18next` - React bindings
-- `remix-i18next` - Remix integration
+- `remix-i18next` - React Router integration (v7 supports React Router; the package name is historical)
 - `i18next-browser-languagedetector` - Browser language detection
 - `i18next-fs-backend` - Server-side translation loading
 
@@ -399,7 +402,13 @@ module.exports = {
   testTimeout: 10000,
   preset: 'ts-jest/presets/default-esm',
   testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['@testing-library/jest-dom'],
+  setupFilesAfterEnv: ['@testing-library/jest-dom', '<rootDir>/setupTests.ts'],
+  moduleNameMapper: {
+    // ...
+    // CommonJS build so `jest.mock('react-router')` applies
+    '^react-router$':
+      '<rootDir>/node_modules/react-router/dist/development/index.js',
+  },
 }
 ```
 
@@ -410,9 +419,8 @@ module.exports = {
 
 **Commands:**
 ```bash
-pnpm data-portal test        # Run tests
+pnpm data-portal test        # Run tests (with coverage)
 pnpm data-portal test:watch  # Watch mode
-pnpm data-portal test:cov    # With coverage
 ```
 
 ---
@@ -443,8 +451,7 @@ export default defineConfig({
 **Commands:**
 ```bash
 pnpm data-portal e2e        # Run E2E tests
-pnpm data-portal e2e:debug  # Debug mode
-pnpm data-portal e2e:ui     # Interactive UI
+pnpm data-portal e2e:debug  # Debug in Playwright's interactive UI
 ```
 
 ---
@@ -494,7 +501,7 @@ Stylelint enforces CSS/SCSS best practices.
 
 **Commands:**
 ```bash
-pnpm stylelint  # Run CSS linter
+pnpm data-portal lint:stylelint  # Run CSS linter
 ```
 
 ---
@@ -534,7 +541,9 @@ pnpm dev
 | File | Purpose |
 |------|---------|
 | [`tsconfig.json`](../../../packages/data-portal/tsconfig.json) | TypeScript configuration |
-| [`vite.config.ts`](../../../packages/data-portal/vite.config.ts) | Vite build configuration (Remix plugin) |
+| [`vite.config.ts`](../../../packages/data-portal/vite.config.ts) | Vite build configuration (`reactRouter()` plugin) |
+| [`react-router.config.ts`](../../../packages/data-portal/react-router.config.ts) | React Router framework config (`ssr: true`, full route manifest up front via `routeDiscovery: { mode: 'initial' }`) |
+| [`app/routes.ts`](../../../packages/data-portal/app/routes.ts) | Route config (`flatRoutes()`) |
 | [`tailwind.config.ts`](../../../packages/data-portal/tailwind.config.ts) | Tailwind CSS configuration |
 | [`codegen.ts`](../../../packages/data-portal/codegen.ts) | GraphQL code generation |
 | [`jest.config.cjs`](../../../packages/data-portal/jest.config.cjs) | Jest test configuration |
@@ -542,11 +551,11 @@ pnpm dev
 | [`postcss.config.js`](../../../packages/data-portal/postcss.config.js) | CSS processing pipeline |
 | [`.eslintrc.cjs`](../../../packages/data-portal/.eslintrc.cjs) | ESLint rules |
 | [`.prettierrc.yml`](../../../.prettierrc.yml) | Prettier formatting rules |
-| [`.nvmrc`](../../../packages/data-portal/.nvmrc) | Node.js version |
+| [`.nvmrc`](../../../.nvmrc) | Node.js version |
 
 ## Next Steps
 
-- [Remix Fundamentals](../01-routing/01-remix-fundamentals.md) - Loaders, routes, SSR patterns
+- [React Router Fundamentals](../01-routing/01-react-router-fundamentals.md) - Loaders, routes, SSR patterns
 - [GraphQL Integration](../02-data/01-graphql-integration.md) - Apollo, codegen, queries
 - [State Management](../03-state/01-state-management.md) - Jotai, URL state, contexts
 - [Styling System](../05-styling/01-styling-system.md) - Tailwind + CSS Modules + MUI
