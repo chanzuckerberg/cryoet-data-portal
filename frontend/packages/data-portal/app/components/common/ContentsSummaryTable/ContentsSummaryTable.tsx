@@ -40,40 +40,40 @@ export function ContentsSummaryTable({
   const { t } = useI18n()
   const SUMMARY_TABLE_INFO: {
     labelKey: keyof SummaryData
-    toolTipContentKey: I18nKeys
+    toolTipContent: string
     learnMoreLink?: string
   }[] = [
     {
       labelKey: 'annotations',
-      toolTipContentKey: t('contentExplanationAnnotation'),
+      toolTipContent: t('contentExplanationAnnotation'),
       learnMoreLink:
         'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_data.html#annotations',
     },
     {
       labelKey: 'tomograms',
-      toolTipContentKey: t('contentExplanationTomograms'),
+      toolTipContent: t('contentExplanationTomograms'),
       learnMoreLink:
         'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_workflow.html#image-processing',
     },
     {
       labelKey: 'frames',
-      toolTipContentKey: t('contentExplanationFrames'),
+      toolTipContent: t('contentExplanationFrames'),
       learnMoreLink:
         'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_workflow.html#image-processing',
     },
     {
       labelKey: 'tiltSeries',
-      toolTipContentKey: t('contentExplanationTiltSeries'),
+      toolTipContent: t('contentExplanationTiltSeries'),
       learnMoreLink:
         'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_workflow.html#image-processing',
     },
     {
       labelKey: 'ctf',
-      toolTipContentKey: t('contentExplanationCtf'),
+      toolTipContent: t('contentExplanationCtf'),
     },
     {
       labelKey: 'alignment',
-      toolTipContentKey: t('contentExplanationAlignment'),
+      toolTipContent: t('contentExplanationAlignment'),
     },
   ]
   const page = title.includes('Dataset') ? 'datasets' : 'runs'
@@ -142,7 +142,7 @@ export function ContentsSummaryTable({
               }}
               tooltip={
                 <>
-                  {entry.toolTipContentKey}{' '}
+                  {entry.toolTipContent}{' '}
                   {entry.learnMoreLink && (
                     <Link
                       className="text-light-sds-color-primitive-blue-500 border-solid hover:border-b border-light-sds-color-primitive-blue-500"
