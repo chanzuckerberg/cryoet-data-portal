@@ -1,13 +1,13 @@
 # State Management
 
-This document covers state management in the CryoET Data Portal frontend, including Jotai atoms for UI state, URL-based state via Remix, React contexts for shared data, and state synchronization patterns.
+This document covers state management in the CryoET Data Portal frontend, including Jotai atoms for UI state, URL-based state via React Router, React contexts for shared data, and state synchronization patterns.
 
 ## Quick Reference
 
 | State Type     | Technology    | Use Case                        | Location                                                                   |
 | -------------- | ------------- | ------------------------------- | -------------------------------------------------------------------------- |
-| Server State   | Remix loaders | Data from GraphQL API           | Route loaders, [GraphQL Integration](../02-data/01-graphql-integration.md) |
-| Route State    | Remix params  | Page-specific data (e.g., ID)   | `params.id` in loaders                                                     |
+| Server State   | Route loaders | Data from GraphQL API           | Route loaders, [GraphQL Integration](../02-data/01-graphql-integration.md) |
+| Route State    | Route params  | Page-specific data (e.g., ID)   | `params.id` in loaders                                                     |
 | Filter State   | URL params    | Shareable, bookmarkable filters | `useFilter()`, `useQueryParam()`                                           |
 | Global Context | React Context | Environment config, modals      | [`app/context/`](../../../packages/data-portal/app/context/)               |
 | UI State       | Jotai atoms   | Transient component state       | [`app/state/`](../../../packages/data-portal/app/state/)                   |
@@ -18,7 +18,7 @@ This document covers state management in the CryoET Data Portal frontend, includ
 
 The CryoET Data Portal follows a **distributed state management** approach:
 
-1. **Remix loaders** handle server state (no client-side cache)
+1. **React Router loaders** handle server state (no client-side cache)
 2. **Route params** identify specific resources (dataset ID, run ID)
 3. **URL is the source of truth** for filters, pagination, and navigation
 4. **React Context** provides global configuration and utilities
@@ -37,7 +37,7 @@ The CryoET Data Portal follows a **distributed state management** approach:
 
 Before diving into implementation details, use this decision guide:
 
-**Use Remix loaders** when data comes from the GraphQL API. Loaders run on the server before rendering, ensuring fresh data on every navigation. This eliminates client-side caching complexity.
+**Use React Router loaders** when data comes from the GraphQL API. Loaders run on the server before rendering, ensuring fresh data on every navigation. This eliminates client-side caching complexity.
 
 **Use URL parameters** when state should be shareable or bookmarkable. Filters, pagination, search queries, and sorting all belong in the URL. This enables users to share links with applied filters and makes browser history work naturally.
 
@@ -51,56 +51,61 @@ Before diving into implementation details, use this decision guide:
 
 ## Server State
 
-Server state is data fetched from the GraphQL API via **Remix loaders**. This is the primary source of truth for all data displayed in the application.
+Server state is data fetched from the GraphQL API via **React Router loaders**. This is the primary source of truth for all data displayed in the application.
 
 ### How It Works
 
 1. **Loaders run on the server** before rendering the page
 2. **Data is fetched via Apollo Client** with SSR mode enabled
-3. **Components access data** via `useTypedLoaderData()` hook
-4. **No client-side caching** - each navigation refetches fresh data
+3. **Components access data** via the `useLoaderData()` hook (or custom hooks wrapping it)
+4. **No client-side caching** - each navigation refetches fresh data (client-side navigations call the loader through a single-fetch `.data` request; `shouldRevalidate` exports can skip refetches for params that don't affect the data)
 
 ### Example: Dataset Details Page
 
 From [`datasets.$id.tsx`](../../../packages/data-portal/app/routes/datasets.$id.tsx):
 
 ```typescript
-import { json, type LoaderFunctionArgs } from '@remix-run/node'
+import { type LoaderFunctionArgs } from 'react-router'
 import { apolloClientV2 } from 'app/apollo.server'
 import { getDatasetByIdV2 } from 'app/graphql/getDatasetByIdV2.server'
+import { QueryParams } from 'app/constants/query'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const id = params.id ? +params.id : NaN
 
-  if (Number.isNaN(id)) {
+  const url = new URL(request.url)
+  const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
+
+  if (Number.isNaN(+id)) {
     throw new Response(null, { status: 400, statusText: 'ID is not defined' })
   }
 
-  const url = new URL(request.url)
-  const { data } = await getDatasetByIdV2({
+  const { data: responseV2 } = await getDatasetByIdV2({
     id,
+    page,
     client: apolloClientV2,
     params: url.searchParams,
   })
 
-  if (data.datasets.length === 0) {
+  if (responseV2.datasets.length === 0) {
     throw new Response(null, {
       status: 404,
-      statusText: `Dataset ${id} not found`,
+      statusText: `Dataset with ID ${id} not found`,
     })
   }
 
-  return json({ v2: data })
+  // Plain object return (single fetch); no json() helper needed
+  return { v2: responseV2 }
 }
 ```
 
 **Accessing in components:**
 
 ```typescript
-import { useTypedLoaderData } from 'remix-typedjson'
+import { useLoaderData } from 'react-router'
 
 function DatasetPage() {
-  const { v2 } = useTypedLoaderData<typeof loader>()
+  const { v2 } = useLoaderData<typeof loader>()
   const dataset = v2.datasets[0]
   return <DatasetHeader title={dataset.title} />
 }
@@ -110,8 +115,8 @@ function DatasetPage() {
 
 - Validate route params before querying
 - Throw `Response` objects for error handling (400, 404)
-- Use `json()` helper to return typed data
-- Access via `useTypedLoaderData()` for full type safety
+- Return plain objects from loaders (use `data(value, { status, headers })` from `react-router` only when you need to set status or headers)
+- Access via `useLoaderData<typeof loader>()` (or a hook like `useDatasetById()`) for full type safety
 
 For detailed GraphQL patterns, see [GraphQL Integration](../02-data/01-graphql-integration.md).
 
@@ -135,7 +140,7 @@ Route files define params via filename (e.g., `datasets.$id.tsx` creates `params
 
 ## URL-Based State
 
-The primary state mechanism is **URL query parameters** managed by Remix.
+The primary state mechanism is **URL query parameters** managed by React Router.
 
 ### Filter State via URL
 
@@ -458,7 +463,7 @@ Initialize atoms from server-rendered data using `useHydrateAtoms`:
 import { useHydrateAtoms } from 'jotai/utils'
 
 function DatasetPage() {
-  const loaderData = useTypedLoaderData<typeof loader>()
+  const loaderData = useLoaderData<typeof loader>()
   useHydrateAtoms([[selectedAnnotationAtom, loaderData.defaultAnnotation]])
   return <AnnotationViewer />
 }
@@ -470,7 +475,7 @@ function DatasetPage() {
 
 ```
 Is the state server data?
-├─ Yes → Use Remix loader + useTypedLoaderData
+├─ Yes → Use route loader + useLoaderData
 └─ No → Should it be shareable via URL?
     ├─ Yes → Use URL params (useQueryParam, useFilter)
     └─ No → Is it component-local?
@@ -482,7 +487,7 @@ Is the state server data?
 
 **Examples:**
 
-- GraphQL data → Remix loader
+- GraphQL data → Route loader
 - Filter values → URL params
 - Environment config → React Context
 - Form input → useState
@@ -516,7 +521,7 @@ Is the state server data?
 
 **Jotai:** Automatically optimizes re-renders. Only components reading a changed atom re-render; others in the same tree don't.
 
-**URL State:** Updates are batched by Remix and don't cause full page reloads. Multiple rapid updates create only one history entry.
+**URL State:** Updates are handled as client-side navigations by React Router and don't cause full page reloads. Multiple rapid updates create only one history entry.
 
 **Context:** Split contexts for independent concerns to prevent unnecessary re-renders. One giant context causes all consumers to re-render on any change.
 

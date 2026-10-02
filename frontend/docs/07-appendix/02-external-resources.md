@@ -12,10 +12,10 @@ This document provides links to external documentation for the technologies, fra
 | -------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | **Node.js**    | [nodejs.org/docs](https://nodejs.org/docs/latest-v24.x/api/)    | LTS runtime environment. Version specified in `.nvmrc`.                                                  |
 | **pnpm**       | [pnpm.io](https://pnpm.io/)                                     | Fast, disk-efficient package manager. Version specified in `package.json` engines field.                 |
-| **Remix**      | [remix.run/docs](https://remix.run/docs/)                       | Full-stack React framework with SSR. See also [Remix Fundamentals](../01-architecture/01-routing/01-remix-fundamentals.md). |
+| **React Router** | [reactrouter.com](https://reactrouter.com/home)               | Full-stack React framework with SSR (v7, framework mode; formerly Remix). See also [React Router Fundamentals](../01-architecture/01-routing/01-react-router-fundamentals.md) and the [Remix upgrade guide](https://reactrouter.com/upgrading/remix). |
 | **React**      | [react.dev](https://react.dev/)                                 | UI library.                                                                                              |
 | **TypeScript** | [typescriptlang.org/docs](https://www.typescriptlang.org/docs/) | Strict mode enabled. See `tsconfig.json` for configuration.                                              |
-| **Express**    | [expressjs.com](https://expressjs.com/)                         | HTTP server for Remix SSR.                                                                               |
+| **Express**    | [expressjs.com](https://expressjs.com/)                         | HTTP server for React Router SSR (`server.ts`, via `@react-router/express`).                             |
 
 ---
 
@@ -81,7 +81,7 @@ This document provides links to external documentation for the technologies, fra
 
 | Technology       | Official Documentation                                                                   | Notes                                                  |
 | ---------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| **Vite**         | [vitejs.dev](https://vitejs.dev/)                                                        | Build tool used by Remix for bundling (via overrides). |
+| **Vite**         | [vite.dev](https://vite.dev/guide/)                                                      | Build tool for the app (via the React Router `reactRouter()` plugin) and the neuroglancer package. |
 | **ts-node**      | [typestrong.org/ts-node](https://typestrong.org/ts-node/)                                | TypeScript execution for server-side code.             |
 | **concurrently** | [github.com/open-cli-tools/concurrently](https://github.com/open-cli-tools/concurrently) | Run multiple dev processes simultaneously.             |
 | **chokidar**     | [github.com/paulmillr/chokidar](https://github.com/paulmillr/chokidar)                   | File watching for development workflows.               |
@@ -94,7 +94,7 @@ This document provides links to external documentation for the technologies, fra
 | ----------------- | -------------------------------------------------------------------------------- | ---------------------------------- |
 | **i18next**       | [i18next.com](https://www.i18next.com/)                                          | Internationalization framework.    |
 | **react-i18next** | [react.i18next.com](https://react.i18next.com/)                                  | React bindings for i18next.        |
-| **remix-i18next** | [github.com/sergiodxa/remix-i18next](https://github.com/sergiodxa/remix-i18next) | i18next integration for Remix SSR. |
+| **remix-i18next** | [github.com/sergiodxa/remix-i18next](https://github.com/sergiodxa/remix-i18next) | i18next integration for React Router SSR (v7). |
 
 ---
 
@@ -164,11 +164,13 @@ This document provides links to external documentation for the technologies, fra
 
 ## Learning Resources
 
-### Remix
+### React Router
 
-- [Official Remix Tutorial](https://remix.run/docs/en/main/start/tutorial) - Build your first Remix app
-- [Remix Conf Videos](https://www.youtube.com/@Remix_Run) - Conference talks and deep dives
-- [Kent C. Dodds' Epic Web](https://www.epicweb.dev/) - Comprehensive Remix courses
+- [Framework Mode Installation](https://reactrouter.com/start/framework/installation) - Getting started with React Router framework mode
+- [Address Book Tutorial](https://reactrouter.com/tutorials/address-book) - Build your first React Router app
+- [Upgrading from Remix](https://reactrouter.com/upgrading/remix) - Remix v2 to React Router v7 migration guide
+- [Testing](https://reactrouter.com/start/framework/testing) and [`createRoutesStub`](https://reactrouter.com/api/utils/createRoutesStub) - Unit testing route components
+- [Kent C. Dodds' Epic Web](https://www.epicweb.dev/) - Comprehensive full-stack React courses
 
 ### GraphQL
 
@@ -194,11 +196,11 @@ This document provides links to external documentation for the technologies, fra
 
 | Resource                   | URL                                                               | Description                                                 |
 | -------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------- |
-| **Remix Discord**          | [rmx.as/discord](https://rmx.as/discord)                          | Official Remix community chat                               |
+| **Remix Discord**          | [remix.run/discord](https://remix.run/discord)                    | Official React Router / Remix community chat                |
 | **Apollo GraphQL Discord** | [apollographql.com/discord](https://community.apollographql.com/) | Apollo Client support                                       |
 | **Reactiflux Discord**     | [reactiflux.com](https://www.reactiflux.com/)                     | React community chat                                        |
 | **Tailwind Labs Discord**  | [tailwindcss.com/discord](https://tailwindcss.com/discord)        | Tailwind CSS support                                        |
-| **Stack Overflow**         | [stackoverflow.com](https://stackoverflow.com/)                   | Tag searches: `[remix]`, `[apollo-client]`, `[tailwindcss]` |
+| **Stack Overflow**         | [stackoverflow.com](https://stackoverflow.com/)                   | Tag searches: `[react-router]`, `[apollo-client]`, `[tailwindcss]` |
 
 ---
 

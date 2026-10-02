@@ -7,7 +7,7 @@ This document describes error handling patterns used throughout the CryoET Data 
 | Pattern          | Implementation         | Location                                                                                                 |
 | ---------------- | ---------------------- | -------------------------------------------------------------------------------------------------------- |
 | Error Boundaries | `<ErrorBoundary>`      | [`components/ErrorBoundary.tsx`](../../../packages/data-portal/app/components/ErrorBoundary.tsx)         |
-| Route Errors     | Remix error boundaries | [`root.tsx`](../../../packages/data-portal/app/root.tsx)                                                 |
+| Route Errors     | Route error boundaries | [`root.tsx`](../../../packages/data-portal/app/root.tsx)                                                 |
 | Loading States   | `useIsLoading()` hook  | [`hooks/useIsLoading.ts`](../../../packages/data-portal/app/hooks/useIsLoading.ts)                       |
 | Empty States     | `<NoFilteredResults>`  | [`components/NoFilteredResults.tsx`](../../../packages/data-portal/app/components/NoFilteredResults.tsx) |
 
@@ -18,7 +18,7 @@ Use this table to determine which error handling approach to use:
 | Scenario                    | Approach             | Why                                         |
 | --------------------------- | -------------------- | ------------------------------------------- |
 | Component render errors     | `<ErrorBoundary>`    | Catches JS errors, prevents full page crash |
-| Missing resource (404)      | Throw Response       | Remix handles with route ErrorBoundary      |
+| Missing resource (404)      | Throw Response       | React Router renders route ErrorBoundary    |
 | Server data loading failure | Throw Response       | Shows proper error page with status code    |
 | GraphQL query errors        | Try/catch in loader  | Log error, throw appropriate Response       |
 | Network failures            | Try/catch + toast    | Show user-friendly notification             |
@@ -99,25 +99,36 @@ if (
 
 ---
 
-## Remix Route Error Handling
+## Route Error Handling (React Router)
 
 ### Throwing Errors in Loaders
 
+Loaders return plain objects. To signal an error, throw a `Response` (or `data(...)` from `react-router`) with the appropriate status:
+
 ```typescript
+import { LoaderFunctionArgs } from 'react-router'
+
 export async function loader({ params }: LoaderFunctionArgs) {
   const dataset = await getDataset(params.id)
   if (!dataset) {
-    throw new Response('Dataset not found', { status: 404 })
+    throw new Response(null, {
+      status: 404,
+      statusText: `Dataset with ID ${params.id} not found`,
+    })
   }
-  return json({ dataset })
+  return { dataset }
 }
 ```
+
+To return data with a non-200 status without throwing, use `data(value, { status })` from `react-router` (the Remix `json()` helper no longer exists).
 
 ### Route ErrorBoundary
 
 Each route can export an ErrorBoundary to handle errors:
 
 ```typescript
+import { isRouteErrorResponse, Link, useRouteError } from 'react-router'
+
 export function ErrorBoundary() {
   const error = useRouteError()
 
@@ -134,7 +145,7 @@ export function ErrorBoundary() {
 }
 ```
 
-See [`root.tsx`](../../../packages/data-portal/app/root.tsx) for the root error boundary implementation.
+> **Note:** [`root.tsx`](../../../packages/data-portal/app/root.tsx) and the current routes do not export a custom route `ErrorBoundary`, so thrown responses (e.g. the 400/404s in `datasets.$id.tsx` and `runs.$id.tsx`) fall back to React Router's default error UI. Component-level errors are handled by the `<ErrorBoundary>` component above.
 
 ---
 
@@ -239,7 +250,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       console.error('GraphQL errors:', errors)
       throw new Error('Failed to fetch datasets')
     }
-    return json({ data })
+    return { data }
   } catch (error) {
     console.error('Loader error:', error)
     throw new Response('Failed to load data', { status: 500 })

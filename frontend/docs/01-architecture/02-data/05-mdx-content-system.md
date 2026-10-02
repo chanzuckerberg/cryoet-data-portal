@@ -20,46 +20,59 @@ MDX files are organized by purpose:
 | Location | Purpose | Examples |
 |----------|---------|----------|
 | `/website-docs/` | General static pages | `faq.mdx`, `privacy-policy.mdx`, `terms.mdx` |
-| `app/components/MLChallenge/MdxContent/` | Competition-specific content | `AboutTheCompetition.mdx`, `Glossary.mdx` |
+| `app/components/MLChallenge/MdxContent/` | Competition-specific content | `AboutTheCompetition-completed.mdx`, `Glossary.mdx` |
 
 ---
 
 ## Server-Side Serialization
 
-MDX content is serialized server-side using `next-mdx-remote` for optimal performance.
+MDX content is serialized server-side in route loaders using `next-mdx-remote` v6 (MDX v3) for optimal performance. The serialized result is returned directly from the loader (React Router single fetch serializes it) and rendered on the client with `MDXRemote`.
+
+> **Note:** `next-mdx-remote` v6 blocks JavaScript expressions, `import` and `export` statements in MDX by default (`blockJS`). Our content only uses Markdown and registered JSX components, so keep MDX files free of inline JS.
 
 ### Key Functions
 
 **Location:** [`app/utils/repo.server.ts`](../../../packages/data-portal/app/utils/repo.server.ts)
 
 ```typescript
-// Get MDX content from website-docs/
-export async function getMdxContent(path: string): Promise<MDXRemoteSerializeResult>
+// Get MDX content from website-docs/ (fetched from GitHub raw, or read from
+// the local repo when ENV=local). Returns { content: MDXRemoteSerializeResult }
+export async function getMdxContent(path: string)
 
-// Get local file content (for feature-specific MDX)
+// Read and serialize a repo-root-relative file. Returns
+// { content: MDXRemoteSerializeResult }, or the bare result when raw is true
 export async function getLocalFileContent(
   path: string,
-  options?: { raw?: boolean }
-): Promise<string | MDXRemoteSerializeResult>
+  options: { raw: boolean } = { raw: false },
+)
+
+// Read and serialize MDX that ships with the data-portal package, using a
+// package-relative path. Returns MDXRemoteSerializeResult
+export async function getPackageMdxContent(path: string)
 
 // Raw serialization function
-async function serializeMdxRaw(content: string): Promise<MDXRemoteSerializeResult>
+async function serializeMdxRaw(content: string)
 ```
+
+Local paths are resolved from `process.cwd()`, because the server always runs from the `packages/data-portal` directory. `getLocalFileContent()` resolves relative to the repository root (`../../..`), while `getPackageMdxContent()` resolves relative to the package itself.
 
 ### Plugins Configuration
 
 The serialization uses remark and rehype plugins:
 
 ```typescript
+import rehypePrism from '@mapbox/rehype-prism'
+import { serialize } from 'next-mdx-remote/serialize'
 import remarkGfm from 'remark-gfm'
 import sectionize from 'remark-sectionize'
-import rehypePrism from '@mapbox/rehype-prism'
 
 async function serializeMdxRaw(content: string) {
   return serialize(content, {
     mdxOptions: {
       remarkPlugins: [sectionize, remarkGfm],
-      rehypePlugins: [rehypePrism],
+      // @types/mapbox__rehype-prism is typed against unified v10, while MDX v3
+      // uses unified v11. The plugin itself is compatible at runtime.
+      rehypePlugins: [rehypePrism] as unknown as RehypePlugins,
     },
   })
 }
@@ -68,7 +81,7 @@ async function serializeMdxRaw(content: string) {
 | Plugin | Purpose |
 |--------|---------|
 | `remark-sectionize` | Organizes content into sections |
-| `remark-gfm` | GitHub-flavored markdown (tables, strikethrough) |
+| `remark-gfm` (v4) | GitHub-flavored markdown (tables, strikethrough) |
 | `@mapbox/rehype-prism` | Syntax highlighting for code blocks |
 
 ---
@@ -93,6 +106,18 @@ export default function PrivacyPage() {
 }
 ```
 
+`MdxContent` reads the loader data through the `useMdxFile()` hook, which is a thin wrapper around `useLoaderData`:
+
+```typescript
+// app/hooks/useMdxFile.ts
+import { MDXRemoteSerializeResult } from 'next-mdx-remote'
+import { useLoaderData } from 'react-router'
+
+export function useMdxFile() {
+  return useLoaderData<{ content: MDXRemoteSerializeResult }>()
+}
+```
+
 **Routes using this pattern:**
 - [`privacy.tsx`](../../../packages/data-portal/app/routes/privacy.tsx)
 - [`terms.tsx`](../../../packages/data-portal/app/routes/terms.tsx)
@@ -105,31 +130,42 @@ For pages combining MDX content with dynamic data:
 
 ```typescript
 // app/routes/competition.tsx
-import { typedjson } from 'remix-typedjson'
-import { getLocalFileContent } from 'app/utils/repo.server'
-import { getWinningDepositions } from 'app/graphql/getWinningDepositions.server'
+import { OrderBy } from 'app/__generated_v2__/graphql'
+import { apolloClientV2 } from 'app/apollo.server'
+import { getWinningDepositions } from 'app/graphql/getWinningDepositionsV2.server'
+import { getPackageMdxContent } from 'app/utils/repo.server'
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function loader() {
   const prefix = 'app/components/MLChallenge/MdxContent'
 
-  // Load multiple MDX files in parallel
-  const [aboutContent, glossaryContent, howToContent] = await Promise.all([
-    getLocalFileContent(`${prefix}/AboutTheCompetition.mdx`, { raw: true }),
-    getLocalFileContent(`${prefix}/Glossary.mdx`, { raw: true }),
-    getLocalFileContent(`${prefix}/HowToParticipate.mdx`, { raw: true }),
-  ])
-
   // Fetch dynamic data alongside MDX
-  const { data } = await getWinningDepositions({ client: apolloClientV2 })
-
-  return typedjson({
-    aboutContent,
-    glossaryContent,
-    howToContent,
-    winningDepositions: data.depositions,
+  const { data } = await getWinningDepositions({
+    limit: 10,
+    orderBy: OrderBy.Asc,
+    client: apolloClientV2,
   })
+
+  // Load multiple package-local MDX files in parallel
+  const [aboutTheCompetitionCompleted, glossary, whatIsCryoET /* ... */] =
+    await Promise.all([
+      getPackageMdxContent(`${prefix}/AboutTheCompetition-completed.mdx`),
+      getPackageMdxContent(`${prefix}/Glossary.mdx`),
+      getPackageMdxContent(`${prefix}/WhatIsCryoET.mdx`),
+      // ...
+    ])
+
+  // Plain object return (single fetch) - no json()/typedjson wrapper
+  return {
+    aboutTheCompetitionCompleted,
+    glossary,
+    whatIsCryoET,
+    // ...
+    winningDepositions: data,
+  }
 }
 ```
+
+Components read these values with `useLoaderData`, typing each MDX entry as `MDXRemoteSerializeResult` (see `CompletedChallengeLayout.tsx`).
 
 ---
 
@@ -153,25 +189,35 @@ Custom components are registered in `MdxContent.tsx`:
 
 ```tsx
 import { MDXRemote } from 'next-mdx-remote'
+
+import { useMdxFile } from 'app/hooks/useMdxFile'
+
 import { MdxAccordion } from './MdxAccordion'
+import { MdxBody } from './MdxBody'
+import { MdxClass, MdxFunction, MdxOperator, MdxPunctuation, MdxString } from './MdxCode'
+import { MdxEmail } from './MdxEmail'
 import { MdxPageTitle } from './MdxPageTitle'
-import { MdxCode, MdxClass, MdxFunction } from './MdxCode'
 
-const components = {
-  Accordion: MdxAccordion,
-  PageTitle: MdxPageTitle,
-  Code: MdxCode,
-  Class: MdxClass,
-  Function: MdxFunction,
-  // HTML element overrides
-  a: CustomLink,
-  h1: (props) => <Heading level={1} {...props} />,
-  h2: (props) => <Heading level={2} {...props} />,
-  // ...
-}
+export function MdxContent() {
+  const { content } = useMdxFile()
 
-export function MdxContent({ content }: Props) {
-  return <MDXRemote {...content} components={components} />
+  return (
+    // ...layout wrappers
+    <MDXRemote
+      {...content}
+      components={{
+        Accordion: MdxAccordion,
+        Body: MdxBody,
+        Class: MdxClass,
+        Email: MdxEmail,
+        Function: MdxFunction,
+        Str: MdxString,
+        Op: MdxOperator,
+        Punc: MdxPunctuation,
+        PageTitle: MdxPageTitle,
+      }}
+    />
+  )
 }
 ```
 
@@ -204,11 +250,13 @@ MDX File (.mdx)
     ↓
 Route loader
     ↓
-getMdxContent() / getLocalFileContent()
+getMdxContent() / getLocalFileContent() / getPackageMdxContent()
     ↓
 serializeMdxRaw() with remark/rehype plugins
     ↓
-MDXRemoteSerializeResult (serialized AST)
+MDXRemoteSerializeResult (compiled MDX), returned from the loader
+    ↓ (single fetch serialization)
+useMdxFile() / useLoaderData()
     ↓
 <MDXRemote {...content} components={...} />
     ↓
@@ -223,29 +271,33 @@ For complex features like MLChallenge, MDX content lives alongside components:
 
 ```
 app/components/MLChallenge/
-├── MLChallenge.tsx
+├── CompletedMLChallenge/
 ├── MdxContent/
-│   ├── AboutTheCompetition.mdx
-│   ├── HowToParticipate.mdx
-│   └── Glossary.mdx
+│   ├── AboutTheCompetition-completed.mdx
+│   ├── ChallengeResources.mdx
+│   ├── CompetitionContributors.mdx
+│   ├── Glossary.mdx
+│   └── WhatIsCryoET.mdx
 └── MdxComponents/
     ├── MdxPrizeTable.tsx
     ├── MdxSeeLeaderboard.tsx
-    └── MdxToggleShowMore.tsx
+    ├── MdxToggleShowMore.tsx
+    └── ...
 ```
+
+These files are loaded with `getPackageMdxContent()`, which resolves paths relative to the data-portal package.
 
 Feature-specific MDX components are registered separately:
 
 ```tsx
-// In MLChallenge/MainContent.tsx
-const mlChallengeComponents = {
-  ...baseComponents,
-  PrizeTable: MdxPrizeTable,
-  SeeLeaderboard: MdxSeeLeaderboard,
-  ToggleShowMore: MdxToggleShowMore,
+// In MLChallenge/CompletedMLChallenge/components/CompletedChallengeLayout/CompletedChallengeLayout.tsx
+const COMMON_MDX_COMPONENTS = {
+  a: MdxLink,
+  Table: MdxTable,
+  IconGrid: MdxIconGrid,
 }
 
-<MDXRemote {...content} components={mlChallengeComponents} />
+<MDXRemote {...glossary} components={{ ...COMMON_MDX_COMPONENTS /* , ... */ }} />
 ```
 
 ---
@@ -261,7 +313,7 @@ const mlChallengeComponents = {
 ### Performance
 
 - Load multiple MDX files in parallel with `Promise.all()`
-- Use `{ raw: true }` when you need to process content client-side
+- Use `getPackageMdxContent()` (or `getLocalFileContent(path, { raw: true })`) when a loader returns several MDX documents; these return the bare `MDXRemoteSerializeResult` instead of `{ content }`
 - Serialize at build time when content is truly static
 
 ### Custom Components
@@ -291,6 +343,10 @@ const mlChallengeComponents = {
 **Problem:** Custom component props not typed
 
 **Solution:** Add TypeScript types to your custom component and ensure MDX content matches expected props.
+
+**Problem:** MDX containing `{expressions}`, `import` or `export` doesn't render as expected
+
+**Solution:** `next-mdx-remote` v6 blocks JavaScript in MDX by default. Move the logic into a registered component and pass plain string props instead.
 
 ---
 

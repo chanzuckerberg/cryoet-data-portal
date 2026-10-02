@@ -38,15 +38,19 @@ Choose the right test type based on what you're verifying:
 
 ### Configuration
 
-Jest is configured with TypeScript support, React Testing Library, and jsdom environment.
+Jest is configured with TypeScript support (ts-jest ESM preset), React Testing Library, and jsdom environment.
 
 **Configuration file:** `/packages/data-portal/jest.config.cjs`
 
 Key settings:
 
+- `ts-jest/presets/default-esm` preset; `pnpm test` sets `NODE_OPTIONS=--experimental-vm-modules` so Jest can run ES modules
 - 10 second timeout for all tests
 - CSS modules mocked with `identity-obj-proxy`
 - Path alias `app/*` maps to source files
+- `react-router` is mapped to its CommonJS build so `jest.mock('react-router', ...)` (used by `app/mocks/Remix.mock.ts`) takes effect; the ESM build can't be mocked with `jest.mock`
+
+**Setup file:** `/packages/data-portal/setupTests.ts` polyfills `TextEncoder`/`TextDecoder` (required by React Router but missing in jsdom), mocks `react-i18next` so `t()` returns the translation key, and stubs `global.fetch`.
 
 ### Unit Test Template
 
@@ -77,6 +81,58 @@ describe('<MyComponent />', () => {
 - Component test: `app/components/Filters/BooleanFilter.test.tsx`
 - Utility test: `app/utils/param-parsers.test.ts`
 - Select filter test: `app/components/Filters/SelectFilter.test.tsx`
+
+### Testing Components That Use React Router
+
+Components that call React Router hooks (`useSearchParams`, `useLocation`, `useNavigate`, `Link`, ...) need a router context. There are two approaches:
+
+**1. Render inside `createRoutesStub`** (from `react-router`, replaces `createRemixStub` from `@remix-run/testing`):
+
+```typescript
+import { jest } from '@jest/globals'
+import { render, screen } from '@testing-library/react'
+import { createRoutesStub } from 'react-router'
+
+const mockReset = jest.fn()
+
+// ESM modules are mocked with unstable_mockModule + dynamic import
+jest.unstable_mockModule('app/hooks/useFilter', () => ({
+  __esModule: true,
+  useFilter: () => ({ reset: mockReset }),
+}))
+
+async function renderNoFilteredResults() {
+  const { NoFilteredResults } = await import('./NoFilteredResults')
+
+  const NoFilteredResultsStub = createRoutesStub([
+    { path: '/', Component: () => <NoFilteredResults /> },
+  ])
+
+  render(<NoFilteredResultsStub />)
+}
+```
+
+See `app/components/NoFilteredResults.test.tsx` and `app/components/Breadcrumbs.test.tsx`.
+
+**2. Mock `react-router` with `RemixMock`** when you need to control or assert on hook values. The class (name kept from the Remix era) lives in `app/mocks/Remix.mock.ts` and calls `jest.mock('react-router', ...)` for `Link`, `useLocation`, `useNavigation`, `useSearchParams`, `useNavigate` and `useParams`:
+
+```typescript
+import { RemixMock } from 'app/mocks/Remix.mock'
+
+const remixMock = new RemixMock()
+
+beforeEach(() => remixMock.reset())
+
+it('updates search params', async () => {
+  remixMock.mockSearchParams(new URLSearchParams('?foo=bar'))
+  const { MultiInputFilter } = await import('./MultiInputFilter')
+  render(<MultiInputFilter /* ... */ />)
+  // ...
+  expect(remixMock.getLastSetParams()?.get('foo')).toBe('baz')
+})
+```
+
+Create the mock before dynamically importing the component under test. See `app/components/Filters/MultiInputFilter.test.tsx`.
 
 ### Common Test Patterns
 
@@ -145,11 +201,11 @@ E2E_CONFIG='{"datasetId":"12345","runId":"999"}' pnpm e2e
 
 **Required config values:** The base `config.json` contains placeholder values that must be overridden:
 
-| Key          | Description                              | Example Value                  |
-| ------------ | ---------------------------------------- | ------------------------------ |
-| `authorName` | Author name for filter tests             | `"Author Name"`                |
-| `authorOrcId`| Author ORCID for filter tests            | `"0000-0000-0000-0000"`        |
-| `runId`      | Run ID that exists in the test database  | `"19"`                         |
+| Key           | Description                             | Example Value           |
+| ------------- | --------------------------------------- | ----------------------- |
+| `authorName`  | Author name for filter tests            | `"Author Name"`         |
+| `authorOrcId` | Author ORCID for filter tests           | `"0000-0000-0000-0000"` |
+| `runId`       | Run ID that exists in the test database | `"19"`                  |
 
 Other available config keys: `url`, `datasetId`, `depositionId`, `organismName1`, `objectName`
 
@@ -161,8 +217,10 @@ The `API_URL_V2` environment variable specifies the GraphQL endpoint used by E2E
 
 ### E2E Test Template
 
+Tests import `test` and `expect` from `@chromatic-com/playwright` (v0.14), a drop-in wrapper around `@playwright/test` that also captures Chromatic visual snapshots (archived with Storybook 10 under the hood):
+
 ```typescript
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@chromatic-com/playwright'
 
 test.describe('Feature Name', () => {
   test('should perform expected action', async ({ page }) => {
@@ -224,9 +282,8 @@ See `e2e/pageObjects/` for full implementations.
 ### Unit Tests
 
 ```bash
-pnpm test                        # Run all tests
+pnpm test                        # Run all tests (with coverage)
 pnpm data-portal test:watch      # Watch mode
-pnpm data-portal test:cov        # With coverage
 pnpm test path/to/test.test.ts   # Single file
 ```
 
@@ -234,8 +291,7 @@ pnpm test path/to/test.test.ts   # Single file
 
 ```bash
 pnpm e2e                         # Run all E2E tests
-pnpm data-portal e2e:debug       # Debug mode with inspector
-pnpm data-portal e2e:ui          # Interactive UI mode
+pnpm data-portal e2e:debug       # Interactive Playwright UI mode
 pnpm e2e e2e/specific.test.ts    # Single file
 E2E_BROWSER=chromium pnpm e2e    # Specific browser
 ```
@@ -255,7 +311,7 @@ debug()  // Outputs to console
 ### E2E Tests
 
 ```bash
-pnpm data-portal e2e:debug    # Opens Playwright Inspector
+pnpm data-portal e2e:debug    # Opens Playwright UI mode (playwright test --ui)
 pnpm e2e --headed             # Watch browser execution
 ```
 
