@@ -51,7 +51,7 @@ Remix is a full-stack React framework that provides server-side rendering (SSR),
 - `@remix-run/express` - Express server adapter
 - `@remix-run/dev` - Development tooling
 
-**Configuration:** [`remix.config.js`](../../../packages/data-portal/remix.config.js)
+**Configuration:** [`vite.config.ts`](../../../packages/data-portal/vite.config.ts)
 
 For detailed patterns, see [Remix Fundamentals](../01-routing/01-remix-fundamentals.md).
 
@@ -534,7 +534,7 @@ pnpm dev
 | File | Purpose |
 |------|---------|
 | [`tsconfig.json`](../../../packages/data-portal/tsconfig.json) | TypeScript configuration |
-| [`remix.config.js`](../../../packages/data-portal/remix.config.js) | Remix bundling configuration |
+| [`vite.config.ts`](../../../packages/data-portal/vite.config.ts) | Vite build configuration (Remix plugin) |
 | [`tailwind.config.ts`](../../../packages/data-portal/tailwind.config.ts) | Tailwind CSS configuration |
 | [`codegen.ts`](../../../packages/data-portal/codegen.ts) | GraphQL code generation |
 | [`jest.config.cjs`](../../../packages/data-portal/jest.config.cjs) | Jest test configuration |
