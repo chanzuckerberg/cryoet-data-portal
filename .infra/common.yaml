@@ -20,10 +20,6 @@ stack:
     frontend:
       image:
         repository: 533267185808.dkr.ecr.us-west-2.amazonaws.com/core-platform/cryoet-data-portal/frontend/frontend
-      ingress:
-        paths:
-          - path: /
-            pathType: Prefix
       gateway:
         enabled: true
         paths:
