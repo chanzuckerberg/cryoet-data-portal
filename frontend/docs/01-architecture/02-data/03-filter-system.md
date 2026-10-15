@@ -434,7 +434,7 @@ searchParams.getAll(QueryParams.Organism) // ['Homo sapiens', 'Mus musculus']
 
 ### Loader Pattern
 
-Filters are applied server-side in Remix loaders:
+Filters are applied server-side in React Router loaders. When a filter changes on the client, `setSearchParams` triggers a client-side navigation and React Router re-runs the loader via a single-fetch `/<path>.data?…` request:
 
 ```typescript
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -449,7 +449,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     client: apolloClientV2,
   })
 
-  return json({ v2: data })
+  return { v2: data }
 }
 ```
 

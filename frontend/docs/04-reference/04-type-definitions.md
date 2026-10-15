@@ -279,14 +279,14 @@ function MyComponent({ initialValues }: { initialValues: AtomTupleWithValue[] })
 
 **Location:** `/packages/data-portal/app/types/context.ts`
 
-Types for Remix context objects.
+Types for React Router load context objects.
 
 ### Server Context
 
-Extended context with client IP for server-side code.
+Extended context with client IP for server-side code. The value is provided by `getLoadContext` in the Express server (`server.ts`), which passes `{ clientIp: req.ip }` to `createRequestHandler` from `@react-router/express`.
 
 ```typescript
-import { AppLoadContext } from '@remix-run/server-runtime'
+import { AppLoadContext } from 'react-router'
 
 export interface ServerContext extends AppLoadContext {
   clientIp: string
@@ -295,7 +295,10 @@ export interface ServerContext extends AppLoadContext {
 
 **Usage:**
 ```typescript
-// In loader or action
+// In loader or action (e.g. app/routes/api.event.ts)
+import { ActionFunctionArgs } from 'react-router'
+import { ServerContext } from 'app/types/context'
+
 export async function action({ context }: ActionFunctionArgs) {
   const { clientIp } = context as ServerContext
   // Use clientIp...

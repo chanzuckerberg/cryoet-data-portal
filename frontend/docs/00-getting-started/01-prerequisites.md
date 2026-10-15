@@ -11,8 +11,8 @@ This document covers the tools and setup required before starting frontend devel
 
 | Tool | Purpose |
 |------|---------|
-| [Node.js](https://nodejs.org/) | JavaScript runtime (version specified in `.nvmrc`) |
-| [pnpm](https://pnpm.io/) | Package manager (version specified in `package.json` engines field) |
+| [Node.js](https://nodejs.org/) | JavaScript runtime, Node.js 24 (exact version specified in `.nvmrc`) |
+| [pnpm](https://pnpm.io/) | Package manager, pnpm 8.10.5 (version specified in `package.json` engines field) |
 | [Git](https://git-scm.com/) | Version control |
 
 ## Recommended Tools
@@ -51,7 +51,7 @@ Recommended extensions:
 ## Verification
 
 ```bash
-node --version    # Should match version in .nvmrc
+node --version    # Should match version in .nvmrc (v24.x)
 pnpm --version    # Should be installed
 git --version     # Any recent version
 ```
