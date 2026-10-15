@@ -73,8 +73,7 @@ jobs:
         with:
           path: |
             frontend/packages/data-portal/build
-            frontend/packages/data-portal/public/build
-          key: local-build-${{ hashFiles('frontend/packages/data-portal/app') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: local-build-${{ hashFiles('frontend/packages/data-portal/app/**', 'frontend/packages/data-portal/public/**', 'frontend/packages/data-portal/*.ts', 'frontend/packages/data-portal/*.js', 'frontend/packages/data-portal/*.cjs', 'frontend/packages/data-portal/package.json') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Build frontend for local testing
         run: pnpm build
@@ -155,8 +154,7 @@ jobs:
         with:
           path: |
             frontend/packages/data-portal/build
-            frontend/packages/data-portal/public/build
-          key: local-build-${{ hashFiles('frontend/packages/data-portal/app') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: local-build-${{ hashFiles('frontend/packages/data-portal/app/**', 'frontend/packages/data-portal/public/**', 'frontend/packages/data-portal/*.ts', 'frontend/packages/data-portal/*.js', 'frontend/packages/data-portal/*.cjs', 'frontend/packages/data-portal/package.json') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Build GraphQL Types
         run: pnpm build:codegen
