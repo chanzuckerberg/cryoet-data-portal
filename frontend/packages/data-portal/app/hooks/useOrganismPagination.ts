@@ -1,5 +1,5 @@
-import { useSearchParams } from '@remix-run/react'
 import { useMemo } from 'react'
+import { useSearchParams } from 'react-router'
 
 import { DEPOSITION_FILTERS } from 'app/constants/filterQueryParams'
 import { MAX_PER_PAGE } from 'app/constants/pagination'

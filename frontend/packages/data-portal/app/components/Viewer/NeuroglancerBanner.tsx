@@ -1,8 +1,8 @@
 import { Banner, Icon } from '@czi-sds/components'
 import { useLocalStorageValue } from '@react-hookz/web'
-import { useLocation } from '@remix-run/react'
 import dayjs, { OpUnitType } from 'dayjs'
 import React from 'react'
+import { useLocation } from 'react-router'
 
 import { LocalStorageKeys } from 'app/constants/localStorage'
 import { useEffectOnce } from 'app/hooks/useEffectOnce'

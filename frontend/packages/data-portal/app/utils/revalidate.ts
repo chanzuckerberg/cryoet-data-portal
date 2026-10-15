@@ -1,5 +1,5 @@
-import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { isEqual } from 'lodash-es'
+import { ShouldRevalidateFunctionArgs } from 'react-router'
 
 import { QueryParams } from 'app/constants/query'
 

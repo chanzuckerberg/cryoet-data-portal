@@ -1,4 +1,4 @@
-import { useSearchParams } from '@remix-run/react'
+import { useSearchParams } from 'react-router'
 
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'

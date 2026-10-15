@@ -29,7 +29,7 @@ pnpm dev
 This runs three concurrent processes:
 
 1. **GraphQL Codegen** (`dev:codegen`) - Watches GraphQL documents and regenerates TypeScript types to `app/__generated_v2__/`
-2. **Remix Dev Server** (`dev:remix`) - Hot reloads React components and routes
+2. **App Dev Server** (`dev:server`) - Express + Vite dev server with HMR for components and routes
 3. **CSS Modules TypeScript** (`dev:tcm`) - Generates type definitions for `.module.css` files
 
 The server is available at [http://localhost:8080](http://localhost:8080).
@@ -163,7 +163,7 @@ This runs these steps in sequence:
 1. `build:codegen` - Generate GraphQL TypeScript types
 2. `build:neuroglancer` - Build the neuroglancer package
 3. `build:tcm` - Generate CSS Module type definitions
-4. `build:remix` - Build the Remix production bundle
+4. `build:app` - Build the React Router production bundle (Vite)
 
 To regenerate GraphQL types after changing queries:
 

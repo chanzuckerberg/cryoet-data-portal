@@ -1,5 +1,4 @@
-import type { MetaFunction } from '@remix-run/node'
-import { json } from '@remix-run/server-runtime'
+import type { MetaFunction } from 'react-router'
 
 import { gql } from 'app/__generated_v2__'
 import { apolloClientV2 } from 'app/apollo.server'
@@ -35,7 +34,7 @@ export async function loader() {
     query: LANDING_PAGE_DATA_QUERY,
   })
 
-  return json(data)
+  return data
 }
 
 export const meta: MetaFunction = () => {

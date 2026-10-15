@@ -1,6 +1,6 @@
-import { useSearchParams } from '@remix-run/react'
 import { atom, useAtom } from 'jotai'
 import { useEffect } from 'react'
+import { useSearchParams } from 'react-router'
 
 import { SYSTEM_PARAMS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'

@@ -1,4 +1,4 @@
-import { useSearchParams } from '@remix-run/react'
+import { useSearchParams } from 'react-router'
 
 import { useEnvironment } from 'app/context/Environment.context'
 

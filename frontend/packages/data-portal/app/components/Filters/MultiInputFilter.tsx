@@ -1,6 +1,6 @@
-import { useSearchParams } from '@remix-run/react'
 import { isEqual } from 'lodash-es'
 import { useCallback, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router'
 
 import { QueryParams } from 'app/constants/query'
 import { useI18n } from 'app/hooks/useI18n'

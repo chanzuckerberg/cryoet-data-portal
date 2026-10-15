@@ -1,5 +1,5 @@
-import { useSearchParams } from '@remix-run/react'
 import { useCallback, useMemo } from 'react'
+import { useSearchParams } from 'react-router'
 
 import { GroupedAccordion, GroupedData } from 'app/components/GroupedAccordion'
 import { DATASET_FILTERS } from 'app/constants/filterQueryParams'

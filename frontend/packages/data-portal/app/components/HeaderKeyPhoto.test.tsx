@@ -1,5 +1,5 @@
-import { createRemixStub } from '@remix-run/testing'
 import { render, screen } from '@testing-library/react'
+import { createRoutesStub } from 'react-router'
 
 import { HeaderKeyPhoto } from './HeaderKeyPhoto'
 
@@ -8,7 +8,7 @@ function renderKeyPhoto(url?: string) {
     return <HeaderKeyPhoto title="title" url={url} />
   }
 
-  const HeaderKeyPhotoStub = createRemixStub([
+  const HeaderKeyPhotoStub = createRoutesStub([
     {
       path: '/',
       Component: HeaderKeyPhotoWrapper,

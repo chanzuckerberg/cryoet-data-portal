@@ -1,5 +1,5 @@
-import { Link as RemixLink, LinkProps, useSearchParams } from '@remix-run/react'
 import { ForwardedRef, forwardRef } from 'react'
+import { Link as RemixLink, LinkProps, useSearchParams } from 'react-router'
 
 import {
   DASHED_BORDERED_CLASSES,
