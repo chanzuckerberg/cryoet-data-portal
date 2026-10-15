@@ -24,19 +24,19 @@ export interface CompleteStateOfANeuroglancerInstance {
   systemMemoryLimit?: number
   title?: string
   wireFrame?: boolean
-  [property: string]: any
+  [property: string]: unknown
 }
 
 export interface SpecifiesACoordinateSpace {
   dimensionName?: Array<number | string>
-  [property: string]: any
+  [property: string]: unknown
 }
 
 export interface LayerElement {
   name?: string
   type?: string
   visible?: boolean
-  [property: string]: any
+  [property: string]: unknown
 }
 
 /**
@@ -71,28 +71,27 @@ export interface LayerElement {
  * pointing right, the second display dimension (green) pointing down, and
  * the third display dimension (blue) pointing away from the camera.
  */
-export enum The2_X2GridLayoutWithXyYzXzAnd3_DPanels {
-  The3D = '3d',
-  The4Panel = '4panel',
-  The4PanelAlt = '4panel-alt',
-  Xy = 'xy',
-  Xy3D = 'xy-3d',
-  Xz = 'xz',
-  Xz3D = 'xz-3d',
-  Yz = 'yz',
-  Yz3D = 'yz-3d',
-}
+export type The2_X2GridLayoutWithXyYzXzAnd3_DPanels =
+  | '4panel-alt'
+  | '4panel'
+  | 'xy'
+  | 'xz'
+  | 'yz'
+  | '3d'
+  | 'xy-3d'
+  | 'xz-3d'
+  | 'yz-3d'
 
 export interface DescribesTheRefDataViewsDataViewToDisplay {
   orthographicProjection?: boolean
   type: string
   flex?: number
-  [property: string]: any
+  [property: string]: unknown
 }
 
 export interface LayerWithinANeuroglancerInstance {
   name?: string
   type?: string
   visible?: boolean
-  [property: string]: any
+  [property: string]: unknown
 }
