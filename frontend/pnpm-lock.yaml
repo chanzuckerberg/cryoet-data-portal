@@ -19,11 +19,12 @@ overrides:
   diff@4: ^4.0.4
   diff@5: ^5.2.2
   dset: ^3.1.4
+  fast-uri@3: ^3.1.9
   fflate@0.8: ^0.8.3
   flatted@3: ^3.4.2
   form-data@4: ^4.0.6
   glob@10: ^10.5.0
-  handlebars@4: ^4.7.9
+  handlebars@4: ^4.7.10
   ikonate>jsdom: npm:dry-uninstall@0.3.0
   ikonate>pretty: npm:dry-uninstall@0.3.0
   ikonate>xmldom: npm:dry-uninstall@0.3.0
@@ -46,13 +47,13 @@ overrides:
   postcss@8: ^8.5.23
   prettier: 3.9.5
   prismjs@1: ^1.30.0
-  qs: ^6.16.0
+  qs: ^6.16.1
   rollup: ^4.20.0
   shell-quote@1: ^1.9.0
   tar-fs@2: ^2.1.4
   tmp@0.0: ^0.2.6
   '@tootallnate/once@2': ^2.0.1
-  undici@6: ^6.28.1
+  undici@6: ^6.29.1
   valibot@1: ^1.4.2
   vite: ^6.0.1
   webpack@5: ^5.104.1
@@ -4249,7 +4250,7 @@ packages:
       source-map-support: 0.5.21
       stream-slice: 0.1.2
       typescript: 5.2.2
-      undici: 6.29.0
+      undici: 6.29.1
 
   /@remix-run/react@2.17.5(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2):
     resolution: {integrity: sha512-ya6OQ+T9yS4u8www75f4dH11NIYeK8K0eMrei+q4BTp6NrY2lqLTBfHqVlc23ZsUnWqdLUII4hzySVv+AJbTWA==}
@@ -6195,7 +6196,7 @@ packages:
     resolution: {integrity: sha512-Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA==}
     dependencies:
       fast-deep-equal: 3.1.3
-      fast-uri: 3.1.8
+      fast-uri: 3.1.9
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
     dev: true
@@ -6644,7 +6645,7 @@ packages:
       http-errors: 2.0.1
       iconv-lite: 0.4.24
       on-finished: 2.4.1
-      qs: 6.16.0
+      qs: 6.17.0
       raw-body: 2.5.3
       type-is: 1.6.18
       unpipe: 1.0.0
@@ -8730,7 +8731,7 @@ packages:
       parseurl: 1.3.3
       path-to-regexp: 0.1.13
       proxy-addr: 2.0.7
-      qs: 6.16.0
+      qs: 6.17.0
       range-parser: 1.2.1
       safe-buffer: 5.2.1
       send: 0.19.0
@@ -8803,8 +8804,8 @@ packages:
       fast-decode-uri-component: 1.0.1
     dev: false
 
-  /fast-uri@3.1.8:
-    resolution: {integrity: sha512-GZMtZUTNRpOVIECoXwLNZS5xUGE+mVNbTB8h/7Rwh2TFWcBQiPzTgyZi05BF9UMZKkLJv8XBRJTlU7zg8+ZfMg==}
+  /fast-uri@3.1.9:
+    resolution: {integrity: sha512-hS/0Wt3Ya043oKXs0sIxrMpKQITXhMLIrVAKKXi4gozGC9v7YRWVnXIZzjNPTO02M9BdxLCWqK1yRXgNziVyJQ==}
     dev: true
 
   /fast-url-parser@1.1.3:
@@ -9368,8 +9369,8 @@ packages:
       through2: 2.0.5
     dev: true
 
-  /handlebars@4.7.9:
-    resolution: {integrity: sha512-4E71E0rpOaQuJR2A3xDZ+GM1HyWYv1clR58tC8emQNeQe3RH7MAzSbat+V0wG78LQBo6m6bzSG/L4pBuCsgnUQ==}
+  /handlebars@4.7.10:
+    resolution: {integrity: sha512-P5VJMVM7qgBn6vjXMw8WG9uVI+ncf2pi72j4de4yz5ZULLj2RGqLYaKOYGsgyrViQ0tePOVlN1tDCCXXtFqXKg==}
     engines: {node: '>=0.4.7'}
     hasBin: true
     dependencies:
@@ -13073,8 +13074,8 @@ packages:
     engines: {node: '>=6.0.0'}
     dev: false
 
-  /qs@6.16.0:
-    resolution: {integrity: sha512-h6fhOIaRrID2CbEY2fqs+7t+UXZo+MLAnU5gRIq85uFtdiUPCdsApMlHhXogKVM4HM2DVbIjGNTTYH2OcmP1vA==}
+  /qs@6.17.0:
+    resolution: {integrity: sha512-5LK5BZ2XDHMvcUJaf0CQ5HL3aVgKbpklvByC7qLSxYkfE8COEEbJg5xCHWCTqzqi0Gs4Jn5Mv5v3R38W6edscA==}
     engines: {node: '>=0.6'}
     dependencies:
       es-define-property: 1.0.1
@@ -14919,7 +14920,7 @@ packages:
       bs-logger: 0.2.6
       esbuild: 0.17.6
       fast-json-stable-stringify: 2.1.0
-      handlebars: 4.7.9
+      handlebars: 4.7.10
       jest: 29.7.0(@types/node@24.19.1)(ts-node@10.9.1)
       json5: 2.2.3
       lodash.memoize: 4.1.2
@@ -15220,8 +15221,8 @@ packages:
   /undici-types@7.24.6:
     resolution: {integrity: sha512-WRNW+sJgj5OBN4/0JpHFqtqzhpbnV0GuB+OozA9gCL7a993SmU+1JBZCzLNxYsbMfIeDL+lTsphD5jN5N+n0zg==}
 
-  /undici@6.29.0:
-    resolution: {integrity: sha512-R+RODBqp6i2pPflGdq+xIOUkl+RNfGgHwoinecKu/JCuf2uO06cOKoDbI2P7Dn6KcswdKwrczbU6IYJ6K8X+wg==}
+  /undici@6.29.1:
+    resolution: {integrity: sha512-EvRlUt/QqAEvXdQeRMYUfwOQsfzpDztykrG2owGEE/rBOBoYv9uF39ZzsNDh4lTFHhTr2XOZjKkYgueD12ZmGA==}
     engines: {node: '>=18.17'}
 
   /unicode-properties@1.4.1:
@@ -15408,7 +15409,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       punycode: 1.4.1
-      qs: 6.16.0
+      qs: 6.17.0
     dev: true
 
   /urlpattern-polyfill@8.0.2:
