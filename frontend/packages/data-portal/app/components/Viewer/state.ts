@@ -109,7 +109,6 @@ export function setCurrentLayout(
 ) {
   const stateModifier = (state: ResolvedSuperState) => {
     const newState = state
-    // @ts-expect-error: The neuroglancer state is not typed with NeuroglancerLayout
     newState.neuroglancer.layout = layout
     return newState
   }
