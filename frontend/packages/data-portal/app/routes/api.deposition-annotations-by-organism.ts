@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs } from '@remix-run/server-runtime'
+import type { LoaderFunctionArgs } from 'react-router'
 
 import { apolloClientV2 } from 'app/apollo.server'
 import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'

@@ -1,5 +1,5 @@
 import Divider from '@mui/material/Divider'
-import { useSearchParams } from '@remix-run/react'
+import { useSearchParams } from 'react-router'
 
 import { Tabs } from 'app/components/Tabs'
 import { QueryParams } from 'app/constants/query'

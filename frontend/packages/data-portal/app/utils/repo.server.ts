@@ -5,7 +5,6 @@ import { serialize } from 'next-mdx-remote/serialize'
 import { resolve } from 'path'
 import remarkGfm from 'remark-gfm'
 import sectionize from 'remark-sectionize'
-import { typedjson } from 'remix-typedjson'
 
 export interface RepoFile {
   content: string
@@ -35,9 +34,9 @@ async function serializeMdxRaw(content: string) {
 }
 
 async function serializeMdx(content: string) {
-  return typedjson({
+  return {
     content: await serializeMdxRaw(content),
-  })
+  }
 }
 
 async function getRepoFileContentResponse(path: string) {
@@ -58,6 +57,17 @@ export async function getLocalFileContent(
   )
 
   return options.raw ? serializeMdxRaw(mdxContent) : serializeMdx(mdxContent)
+}
+
+/**
+ * Reads and serializes an MDX file that ships with the data-portal package,
+ * using a path relative to the package directory.
+ */
+export async function getPackageMdxContent(path: string) {
+  // The server always runs from the data-portal package directory.
+  const mdxContent = readFileSync(resolve(process.cwd(), path), 'utf-8')
+
+  return serializeMdxRaw(mdxContent)
 }
 
 export async function getMdxContent(path: string) {

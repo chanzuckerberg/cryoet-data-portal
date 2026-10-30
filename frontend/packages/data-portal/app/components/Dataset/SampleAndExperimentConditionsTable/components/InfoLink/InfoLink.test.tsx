@@ -1,5 +1,5 @@
-import { createRemixStub } from '@remix-run/testing'
 import { render, screen } from '@testing-library/react'
+import { createRoutesStub } from 'react-router'
 
 import {
   CELLOSAURUS,
@@ -17,7 +17,7 @@ async function renderInfoLink({ id, value }: InfoLinkProps) {
     return <InfoLink id={id} value={value} />
   }
 
-  const InfoLinkStub = createRemixStub([
+  const InfoLinkStub = createRoutesStub([
     {
       path: '/',
       Component: InfoLinkWrapper,

@@ -1,4 +1,9 @@
+import { TextDecoder, TextEncoder } from 'node:util'
+
 import { jest } from '@jest/globals'
+
+// jsdom doesn't provide these, but react-router relies on them.
+Object.assign(global, { TextDecoder, TextEncoder })
 
 jest.mock('react-i18next', () => ({
   // this mock makes sure any components using the translate hook can use it without a warning being shown
@@ -13,10 +18,6 @@ jest.mock('react-i18next', () => ({
     type: '3rdParty',
     init: () => {},
   },
-}))
-
-jest.mock('@web3-storage/multipart-parser', () => ({
-  parseMultipart: jest.fn(),
 }))
 
 // Mock fetch for tests

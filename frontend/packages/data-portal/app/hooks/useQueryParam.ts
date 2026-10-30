@@ -1,6 +1,6 @@
-import { useSearchParams } from '@remix-run/react'
 import { isFunction } from 'lodash-es'
 import { useCallback, useMemo } from 'react'
+import { useSearchParams } from 'react-router'
 
 import { QueryParams } from 'app/constants/query'
 

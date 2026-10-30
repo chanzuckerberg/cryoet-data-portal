@@ -2,18 +2,16 @@
 
 import 'dotenv/config'
 
-import { createRequestHandler } from '@remix-run/express'
-import { installGlobals, ServerBuild } from '@remix-run/node'
+import { createRequestHandler } from '@react-router/express'
 import compression from 'compression'
 import express from 'express'
 import morgan from 'morgan'
 import path from 'path'
+import type { ServerBuild } from 'react-router'
 import sourceMapSupport from 'source-map-support'
 
 import { ServerContext } from 'app/types/context'
 
-// patch in Remix runtime globals
-installGlobals()
 sourceMapSupport.install()
 
 const BUILD_PATH = './build/server/index.js'
@@ -64,7 +62,7 @@ async function main() {
       build: viteDevServer
         ? () =>
             viteDevServer.ssrLoadModule(
-              'virtual:remix/server-build',
+              'virtual:react-router/server-build',
             ) as Promise<ServerBuild>
         : ((await import(BUILD_PATH)) as ServerBuild),
       mode: process.env.NODE_ENV,

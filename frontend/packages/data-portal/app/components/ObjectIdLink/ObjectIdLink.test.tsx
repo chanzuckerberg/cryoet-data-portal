@@ -1,5 +1,5 @@
-import { createRemixStub } from '@remix-run/testing'
 import { render, screen } from '@testing-library/react'
+import { createRoutesStub } from 'react-router'
 
 import {
   CDPO,
@@ -18,7 +18,7 @@ async function renderObjectIdLink(id: string) {
     return <ObjectIdLink id={id} />
   }
 
-  const ObjectIdLinkStub = createRemixStub([
+  const ObjectIdLinkStub = createRoutesStub([
     {
       path: '/',
       Component: ObjectIdLinkWrapper,

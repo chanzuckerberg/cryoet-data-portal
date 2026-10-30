@@ -1,6 +1,6 @@
 import { Icon } from '@czi-sds/components'
-import { useSearchParams } from '@remix-run/react'
 import { useMemo } from 'react'
+import { useSearchParams } from 'react-router'
 
 import { type TabData, Tabs } from 'app/components/Tabs'
 import { QueryParams } from 'app/constants/query'

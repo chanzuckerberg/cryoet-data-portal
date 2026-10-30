@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useTypedLoaderData } from 'remix-typedjson'
+import { useLoaderData } from 'react-router'
 
 import {
   GetDepositionsDataV2Query,
@@ -8,7 +8,7 @@ import {
 import { remapV2BrowseAllDepositions } from 'app/apiNormalization'
 
 export function useDepositions() {
-  const { v2, orderBy } = useTypedLoaderData<{
+  const { v2, orderBy } = useLoaderData<{
     v2: GetDepositionsDataV2Query
     orderBy: OrderBy
   }>()

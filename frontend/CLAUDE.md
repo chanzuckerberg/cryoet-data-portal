@@ -47,13 +47,13 @@ Individual linters:
 
 ### Monorepo Structure
 
-- **packages/data-portal**: Main CryoET Data Portal web application (Remix + React)
+- **packages/data-portal**: Main CryoET Data Portal web application (React Router v7 + React)
 - **packages/eslint-config**: Shared ESLint configuration
 - **packages/eslint-plugin**: Custom ESLint rules
 
 ### Technology Stack
 
-- **Framework**: Remix (React-based full-stack framework)
+- **Framework**: React Router v7 in framework mode (formerly Remix), built with Vite
 - **Styling**: Tailwind CSS + CSS Modules + Material-UI + Emotion
 - **GraphQL**: Apollo Client with code generation
 - **State Management**: Jotai (atomic state management)
@@ -69,7 +69,7 @@ Individual linters:
 
 ### File Organization
 
-- **app/routes/**: Remix route components and loaders
+- **app/routes/**: React Router route modules and loaders (flat-file routes via `app/routes.ts`)
 - **app/components/**: Reusable React components
 - **app/graphql/**: GraphQL queries and fragments
 - **app/hooks/**: Custom React hooks
@@ -80,7 +80,7 @@ Individual linters:
 
 ### Key Patterns
 
-- Route-based data loading with Remix loaders
+- Route-based data loading with React Router loaders (single fetch; loaders return plain objects)
 - Component-driven architecture with shared design system (@czi-sds/components)
 - GraphQL queries use typed document nodes with fragment masking disabled
 - Internationalization keys follow hierarchical structure in translation.json
@@ -92,7 +92,7 @@ Individual linters:
 
 1. GraphQL codegen runs automatically during dev and must complete before other processes
 2. Hot reload enabled for both client and server code
-3. TypeScript compilation happens via ts-node for server, Remix handles client compilation
+3. `server.ts` (Express) runs via ts-node and uses Vite's dev middleware; Vite builds the app
 4. CSS Modules type definitions generated automatically via typed-css-modules
 
 ### Environment Configuration

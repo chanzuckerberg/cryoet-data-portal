@@ -18,7 +18,7 @@ export class RemixMock {
   navigateFn = jest.fn()
 
   constructor() {
-    jest.mock('@remix-run/react', () => ({
+    jest.mock('react-router', () => ({
       Link: jest.fn(),
       useLocation: this.useLocation,
       useNavigation: this.useNavigation,
