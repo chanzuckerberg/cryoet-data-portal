@@ -106,7 +106,7 @@ on:
 
 Before running tests, the workflow:
 
-1. Installs Node.js 22 and pnpm 8.10.5
+1. Installs Node.js 24 (`24.21.x`, matching `.nvmrc`) and pnpm 8.10.5
 2. Caches pnpm store for faster subsequent runs
 3. Builds neuroglancer (`pnpm build:neuroglancer`)
 4. Generates GraphQL types (`pnpm build:codegen`)
@@ -144,7 +144,7 @@ A reusable workflow that runs Playwright end-to-end tests. Called by other workf
 
 **Jobs:**
 
-1. **e2e-setup**: Installs dependencies, caches Playwright browsers, builds frontend (for local env)
+1. **e2e-setup**: Installs dependencies, caches Playwright browsers, builds frontend (for local env; the `build/` output, i.e. `build/client` and `build/server`, is cached for the test jobs, which start it with `pnpm start`)
 2. **frontend-e2e-tests**: Runs tests in parallel shards
 3. **chromatic**: Runs visual regression testing after E2E tests complete
 
@@ -192,8 +192,7 @@ jobs:
 ```bash
 cd frontend/packages/data-portal
 pnpm e2e                # Run all E2E tests
-pnpm e2e:debug          # Run with Playwright inspector
-pnpm e2e:ui             # Run with Playwright UI mode
+pnpm e2e:debug          # Run with Playwright UI mode (playwright test --ui)
 ```
 
 ---

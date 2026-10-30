@@ -10,13 +10,15 @@ This guide covers the daily commands and workflows for developing on the CryoET 
 |------|---------|
 | Start dev server | `pnpm dev` |
 | Run unit tests | `pnpm test` |
-| Run tests in watch mode | `pnpm test:watch` |
-| Run E2E tests | `pnpm e2e` |
-| Debug E2E tests | `pnpm e2e:debug` |
+| Run tests in watch mode | `pnpm data-portal test:watch` |
+| Run E2E tests | `pnpm data-portal e2e` |
+| Debug E2E tests | `pnpm data-portal e2e:debug` |
 | Fix lint issues | `pnpm lint:fix` |
-| Type check | `pnpm type-check` |
+| Type check | `pnpm data-portal type-check` |
 | Build for production | `pnpm build` |
-| Generate GraphQL types | `pnpm build:codegen` |
+| Generate GraphQL types | `pnpm data-portal build:codegen` |
+
+Commands are run from `frontend/`. Scripts that only exist in the data-portal package are invoked as `pnpm data-portal <script>` (or run them directly from `packages/data-portal/`, as in the examples below).
 
 ## Development Server
 
@@ -26,7 +28,7 @@ Start the development server:
 pnpm dev
 ```
 
-This runs three concurrent processes:
+This first runs GraphQL codegen and builds Neuroglancer, then runs three concurrent processes:
 
 1. **GraphQL Codegen** (`dev:codegen`) - Watches GraphQL documents and regenerates TypeScript types to `app/__generated_v2__/`
 2. **App Dev Server** (`dev:server`) - Express + Vite dev server with HMR for components and routes
@@ -36,7 +38,7 @@ The server is available at [http://localhost:8080](http://localhost:8080).
 
 ### Hot Reload Behavior
 
-- **React components**: Instant reload via Remix
+- **React components and routes**: Hot module replacement via Vite (React Router Vite plugin)
 - **GraphQL queries**: Types regenerate automatically when `.ts`/`.tsx` files with queries change
 - **CSS Modules**: TypeScript definitions regenerate when `.module.css` files change
 - **Server code**: Restarts when `server.ts` is modified

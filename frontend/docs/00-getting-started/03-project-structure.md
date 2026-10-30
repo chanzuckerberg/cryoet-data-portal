@@ -24,7 +24,7 @@ frontend/
 
 | Package | Purpose |
 |---------|---------|
-| `data-portal` | Remix/React application - the main CryoET Data Portal |
+| `data-portal` | React Router (framework mode, formerly Remix) application - the main CryoET Data Portal |
 | `eslint-config` | Shared ESLint rules used across packages |
 | `eslint-plugin` | Project-specific custom ESLint rules |
 | `neuroglancer` | 3D viewer integration for visualizing tomograms |
@@ -39,7 +39,9 @@ data-portal/
 ├── public/                   # Static assets
 ├── e2e/                      # Playwright E2E tests
 ├── package.json              # Dependencies and scripts
-├── vite.config.ts            # Vite + Remix build config
+├── server.ts                 # Express server (Vite dev middleware / production build)
+├── vite.config.ts            # Vite build config (React Router plugin)
+├── react-router.config.ts    # React Router framework config (SSR enabled)
 ├── tailwind.config.ts        # Tailwind CSS customization
 ├── codegen.ts                # GraphQL code generation
 ├── tsconfig.json             # TypeScript configuration
@@ -59,16 +61,16 @@ The core application code organized by concern:
 | `context/` | React context providers |
 | `graphql/` | GraphQL queries (`.server.ts` files for server-side fetching) |
 | `hooks/` | Custom React hooks |
-| `mocks/` | Test mocks (LocalStorage, Remix) for unit testing |
+| `mocks/` | Test mocks (LocalStorage, React Router via `Remix.mock.ts`) for unit testing |
 | `queries/` | Query hooks for data fetching |
-| `routes/` | Remix routes - pages and API endpoints (file-based routing) |
+| `routes/` | React Router routes - pages and API endpoints (file-based routing) |
 | `state/` | Jotai atoms for global state management |
 | `types/` | TypeScript type definitions |
 | `utils/` | Utility functions and helpers |
 
 ### Key Directories Explained
 
-**routes/** - Remix uses file-based routing. Each file becomes a route:
+**routes/** - React Router's flat-file routing convention (enabled by `flatRoutes()` in `app/routes.ts`). Each file becomes a route:
 - `_index.tsx` → `/` (homepage)
 - `browse-data.datasets.tsx` → `/browse-data/datasets`
 - `datasets.$id.tsx` → `/datasets/:id` (dynamic route)
@@ -101,7 +103,10 @@ graphql/
 |------|---------|
 | `package.json` | Dependencies, scripts, and package metadata |
 | `tsconfig.json` | TypeScript compiler options (strict mode enabled) |
-| `vite.config.ts` | Vite build config with the Remix plugin |
+| `vite.config.ts` | Vite build config with the `reactRouter()` plugin |
+| `react-router.config.ts` | React Router framework options (`ssr: true`, `routeDiscovery: { mode: 'initial' }`) |
+| `app/routes.ts` | Route config using `flatRoutes()` from `@react-router/fs-routes` |
+| `server.ts` | Express server entry point |
 | `tailwind.config.ts` | Custom Tailwind utilities and design tokens |
 | `codegen.ts` | GraphQL code generation from API schema |
 | `jest.config.cjs` | Jest test runner configuration |
@@ -129,6 +134,7 @@ These directories are auto-generated and git-ignored:
 | `app/__generated_v2__/` | `pnpm data-portal build:codegen` (GraphQL types) |
 | `build/server/` | `pnpm build` (server bundle) |
 | `build/client/` | `pnpm build` (client assets) |
+| `.react-router/` | React Router dev tooling (generated route types) |
 
 > **Important**: Never edit files in `__generated_v2__/`. They are regenerated from the GraphQL schema on every codegen run.
 

@@ -111,16 +111,22 @@ When updating to a new version of the MetaCell fork:
 
 ## Build System Notes
 
-### Why Vite?
+### Why a Separate Vite Build?
 
-Neuroglancer does not support esbuild-based builds (used by Remix). The neuroglancer package uses Vite for bundling instead.
+The data-portal app itself is built with Vite (via the React Router `reactRouter()` plugin), but Neuroglancer is still built as its own workspace package with a dedicated Vite config rather than being bundled into the app. Neuroglancer needs build settings the app doesn't (see below), and keeping it separate isolates its large bundle and web workers from the app build.
 
-Key Vite configuration details (`vite.config.ts`):
+How the two packages fit together:
+
+- `pnpm build` / `pnpm dev` in `packages/data-portal` first run `build:neuroglancer` (`pnpm --filter neuroglancer build`), which generates the state types, runs `vite build` and compiles the wrapper with `tsc`
+- The built viewer in `packages/neuroglancer/dist` is served statically at `/neuroglancer` by the data-portal Express server (`server.ts`)
+- The data-portal depends on the package as `"neuroglancer": "workspace:*"` and imports only its small prebuilt wrapper (`dist/index.js`, e.g. `updateState`) from `'neuroglancer'`
+
+Key Vite configuration details (`packages/neuroglancer/vite.config.ts`):
 
 - **Chunk size limit**: 2 MB (allows large Neuroglancer chunks)
 - **esbuild target**: ES2022 (supports decorators used in Neuroglancer)
 - **Worker format**: ES (required for dynamic imports)
-- **neuroglancer excluded from optimization**: Due to `new URL` syntax incompatibility with esbuild
+- **neuroglancer excluded from `optimizeDeps`**: Its `new URL` syntax is not supported by esbuild, which Vite uses for dependency pre-bundling in the dev server
 
 ### iFrame Integration
 
@@ -133,7 +139,7 @@ The neuroglancer wrapper uses an iFrame pattern to isolate Neuroglancer from the
 
 ### Generated Types
 
-The `NeuroglancerState.ts` file is auto-generated from official Neuroglancer schema files and should never be edited manually. To regenerate:
+The `src/NeuroglancerState.ts` file is auto-generated with [quicktype](https://quicktype.io/) (v26) from the official Neuroglancer JSON schema files and should never be edited manually. quicktype v26 emits string-union types (e.g. `type Foo = 'a' | 'b'`) instead of TypeScript enums. To regenerate:
 
 ```sh
 pnpm -r generate-interface
@@ -149,7 +155,7 @@ This is expected due to Node.js version incompatibility. Follow the [tarball ins
 
 ### Build fails with esbuild errors
 
-Ensure you're running the build from the neuroglancer package directory with Vite, not from the main data-portal package.
+Neuroglancer must be built by its own Vite config (`pnpm --filter neuroglancer build`, which `pnpm build` in the data-portal runs for you). The data-portal's own Vite config does not include the Neuroglancer-specific settings above.
 
 ### State synchronization issues
 

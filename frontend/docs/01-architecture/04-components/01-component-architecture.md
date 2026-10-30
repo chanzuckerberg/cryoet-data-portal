@@ -534,11 +534,11 @@ How a typical request flows through the component system:
        ↓
 5. Apollo Client executes GraphQL query
        ↓
-6. Component renders with data from useTypedLoaderData()
+6. Component renders with data from useLoaderData() (e.g. via useDatasets())
        ↓
 7. User changes filter → useFilter().updateValue() updates URL
        ↓
-8. Remix reloads the route with new params
+8. React Router re-runs the loader with the new params
 ```
 
 ---
@@ -583,7 +583,7 @@ export default function DatasetTable() {
 
 **Rationale:** Better IDE support, easier refactoring, explicit imports
 
-**Exception:** Route components must use default exports (Remix convention)
+**Exception:** Route components must use default exports (React Router route module convention)
 
 ---
 

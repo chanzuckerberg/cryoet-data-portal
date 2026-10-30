@@ -1,6 +1,6 @@
 # API Routes Reference
 
-This document provides a comprehensive reference for all internal API routes in the CryoET Data Portal frontend. These routes are implemented as Remix loaders and actions in the `/packages/data-portal/app/routes/` directory.
+This document provides a comprehensive reference for all internal API routes in the CryoET Data Portal frontend. These routes are implemented as React Router resource routes (loaders and actions without a default export) in the `/packages/data-portal/app/routes/` directory.
 
 
 ## Quick Reference
@@ -510,12 +510,12 @@ Get items (annotations or tomograms) grouped by organism.
 
 ### File Naming
 
-API routes use Remix's file-based routing with dot notation:
+API routes use React Router's flat-file routing convention (dot notation, wired up by `flatRoutes()` in `app/routes.ts`):
 ```
 app/routes/api.[route-name].ts
 ```
 
-This creates routes at `/api/[route-name]`.
+This creates routes at `/api/[route-name]`. Because these are resource routes that return `Response` objects directly, they are not affected by single-fetch serialization (unlike page loaders, which return plain objects).
 
 ### Method Handling
 
@@ -525,6 +525,8 @@ This creates routes at `/api/[route-name]`.
 
 **Example structure:**
 ```typescript
+import { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router'
+
 // For GET requests
 export async function loader({ request }: LoaderFunctionArgs) {
   // Handle request
@@ -602,26 +604,17 @@ try {
 **Location:** `app/utils/api-helpers.ts`
 
 ```typescript
-// Validate numeric parameter
-function validateNumericParam(param: string | null, name: string): number {
-  if (!param || Number.isNaN(Number(param))) {
-    throw new Error(`Missing or invalid ${name}`)
-  }
-  return Number(param)
-}
+// Parse a numeric query param; throws `Missing or invalid ${paramName}`
+export function validateNumericParam(
+  value: string | null,
+  paramName: string,
+): number
 
-// Create JSON response
-function createJsonResponse(data: unknown): Response {
-  return new Response(JSON.stringify(data), {
-    headers: { 'Content-Type': 'application/json' },
-  })
-}
+// JSON `Response` with Content-Type: application/json (status defaults to 200)
+export function createJsonResponse(data: unknown, status = 200): Response
 
-// Handle API error
-function handleApiError(error: unknown, operation: string): Response {
-  console.error(`Failed to ${operation}:`, error)
-  return new Response(`Failed to ${operation}`, { status: 500 })
-}
+// Logs `${context}:` + error and returns a 500 `Failed to ${context.toLowerCase()}`
+export function handleApiError(error: unknown, context: string): Response
 ```
 
 ### Parameter Parsers
@@ -629,13 +622,17 @@ function handleApiError(error: unknown, operation: string): Response {
 **Location:** `app/utils/param-parsers.ts`
 
 ```typescript
-// Validate deposition tab parameter
-function validateDepositionTab(type: string | null): DataContentsType {
-  if (!type || !Object.values(DataContentsType).includes(type as DataContentsType)) {
-    throw new Error('Missing or invalid type parameter')
-  }
-  return type as DataContentsType
-}
+// Comma-separated ids -> number[]; throws if missing or none are valid
+export function parseDatasetIds(datasetIds: string | null): number[]
+
+// Requires a numeric page; pageSize falls back to 20
+export function parsePageParams(
+  page: string | null,
+  pageSize: string | null = null,
+): { page: number; pageSize: number }
+
+// Defaults to DataContentsType.Annotations; throws for unknown values
+export function validateDepositionTab(tab: string | null): DataContentsType
 ```
 
 ---
@@ -644,15 +641,19 @@ function validateDepositionTab(type: string | null): DataContentsType {
 
 ### Unit Testing
 
-Test API routes using Remix's testing utilities:
+Test API routes by calling the loader directly with a standard `Request`:
 
 ```typescript
-import { createRequest } from '@remix-run/node'
+import { LoaderFunctionArgs } from 'react-router'
 import { loader } from './api.example'
 
 test('returns data for valid request', async () => {
-  const request = createRequest('http://localhost/api/example?id=1')
-  const response = await loader({ request, params: {}, context: {} })
+  const request = new Request('http://localhost/api/example?id=1')
+  const response = await loader({
+    request,
+    params: {},
+    context: {},
+  } as LoaderFunctionArgs)
   const data = await response.json()
 
   expect(data).toBeDefined()

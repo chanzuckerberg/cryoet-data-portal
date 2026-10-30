@@ -22,7 +22,7 @@ The portal uses:
 
 - **Apollo Client** for GraphQL queries
 - **GraphQL Code Generator** to create TypeScript types from queries
-- **Server-side rendering** - queries run in Remix loaders
+- **Server-side rendering** - queries run in React Router loaders
 
 **Configuration file:** `/packages/data-portal/codegen.ts`
 
@@ -125,9 +125,10 @@ import {
 type DatasetResult = GetDatasetByIdV2Query['datasets'][0]
 ```
 
-### 4. Use in a Remix Loader
+### 4. Use in a Route Loader
 
 ```typescript
+import { LoaderFunctionArgs } from 'react-router'
 import { apolloClientV2 } from 'app/apollo.server'
 import { getDatasetByIdV2 } from 'app/graphql/getDatasetByIdV2.server'
 
@@ -138,13 +139,16 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const { data } = await getDatasetByIdV2({ id, client: apolloClientV2 })
   if (data.datasets.length === 0) throw new Response(null, { status: 404 })
 
-  return json({ dataset: data.datasets[0], runs: data.runs })
+  // Return a plain object; React Router serializes it (single fetch)
+  return { dataset: data.datasets[0], runs: data.runs }
 }
 ```
 
 ### 5. Access Data in Component
 
 ```typescript
+import { useLoaderData } from 'react-router'
+
 export default function DatasetPage() {
   const { dataset, runs } = useLoaderData<typeof loader>()
   return <div><h1>{dataset.title}</h1></div>
@@ -286,6 +290,6 @@ export const apolloClientV2 = new ApolloClient({
 
 ## Next Steps
 
-- [Adding New Routes](./01-adding-new-routes.md) - Use queries in Remix loaders
+- [Adding New Routes](./01-adding-new-routes.md) - Use queries in route loaders
 - [Adding Filters](./04-adding-filters.md) - Build dynamic query filters
 - [Testing Guide](./06-testing-guide.md) - Test components that use GraphQL data

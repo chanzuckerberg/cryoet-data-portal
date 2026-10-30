@@ -85,11 +85,13 @@ ENV=local
 
 ## Checking Feature Flags
 
-### Server-Side (Remix Loaders)
+### Server-Side (Route Loaders)
 
 Use `getFeatureFlag()` in server-side code:
 
 ```typescript
+import { LoaderFunctionArgs } from 'react-router'
+
 import { getFeatureFlag } from 'app/utils/featureFlags'
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -104,10 +106,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
   if (isNewFeatureEnabled) {
     // Fetch additional data for new feature
     const extraData = await getExtraData()
-    return json({ data, extraData })
+    return { data, extraData }
   }
 
-  return json({ data })
+  return { data }
 }
 ```
 
@@ -157,6 +159,8 @@ export function useFeatureFlag(key: FeatureFlagKey): boolean
 **Hook implementation:**
 
 ```typescript
+import { useSearchParams } from 'react-router'
+
 export function useFeatureFlag(key: FeatureFlagKey): boolean {
   const [params] = useSearchParams()
   const { ENV } = useEnvironment()
@@ -295,7 +299,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   // Feature is enabled, proceed with loading
   const data = await getBetaData(params.id)
-  return json({ data })
+  return { data }
 }
 ```
 
@@ -316,12 +320,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
       getBaseData(),
       getExtraData(),
     ])
-    return json({ baseData, extraData })
+    return { baseData, extraData }
   }
 
   // Standard data fetching
   const baseData = await getBaseData()
-  return json({ baseData, extraData: null })
+  return { baseData, extraData: null }
 }
 ```
 

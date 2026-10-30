@@ -50,7 +50,7 @@ export const apolloClientV2 = new ApolloClient({
 | `uri` | `process.env.API_URL_V2` | Configurable endpoint via environment variable |
 
 **Why no-cache?**
-- All data fetching happens server-side in Remix loaders
+- All data fetching happens server-side in React Router loaders
 - Pages are server-rendered on each request
 - Eliminates cache invalidation complexity
 - Reduces client-side bundle size
@@ -212,7 +212,7 @@ app/graphql/
 ```
 
 **`.server.ts` suffix benefits:**
-- Remix automatically excludes these files from client bundles
+- React Router's Vite plugin excludes `.server` modules from client bundles (and errors if client code imports them)
 - Reduces client JavaScript payload
 - Clear separation of server-only code
 
@@ -298,12 +298,12 @@ export async function getDatasetsV2({
 4. Returns strongly-typed `ApolloQueryResult`
 5. Business logic (filters, pagination) handled in function
 
-### Usage in Remix Loaders
+### Usage in React Router Loaders
 
 From [`browse-data.datasets.tsx`](../../../packages/data-portal/app/routes/browse-data.datasets.tsx):
 
 ```typescript
-import { json, LoaderFunctionArgs } from '@remix-run/node'
+import { LoaderFunctionArgs } from 'react-router'
 import { apolloClientV2 } from 'app/apollo.server'
 import { getDatasetsV2 } from 'app/graphql/getDatasetsV2.server'
 
@@ -317,7 +317,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
     client: apolloClientV2,
   })
 
-  return json({ v2: responseV2 })
+  // Loaders return plain objects; React Router serializes them (single fetch)
+  return { v2: responseV2 }
 }
 ```
 
@@ -541,10 +542,10 @@ Generated Types (app/__generated_v2__/graphql.ts)
     ↓ (import)
 Query Definition (app/graphql/*.server.ts)
     ↓ (export typed function)
-Remix Loader (app/routes/*.tsx)
-    ↓ (json() return)
-useTypedLoaderData Hook
-    ↓ (type assertion)
+React Router Loader (app/routes/*.tsx)
+    ↓ (plain object return)
+useLoaderData Hook
+    ↓ (type parameter)
 Component Props
 ```
 
@@ -567,13 +568,13 @@ export async function getDatasetByIdV2(): Promise<ApolloQueryResult<GetDatasetBy
 // 3. Loader with type
 export async function loader() {
   const { data } = await getDatasetByIdV2()
-  return json({ v2: data })
+  return { v2: data }
 }
 
 // 4. Component with type
 export default function DatasetPage() {
-  const { v2 } = useTypedLoaderData<{ v2: GetDatasetByIdV2Query }>()
-  //    ^-- Fully typed!
+  const { v2 } = useLoaderData<{ v2: GetDatasetByIdV2Query }>()
+  //    ^-- Fully typed! (or use useLoaderData<typeof loader>())
 }
 ```
 
@@ -584,11 +585,11 @@ For cleaner component code, wrap loader data in custom hooks:
 From [`useDatasetById.ts`](../../../packages/data-portal/app/hooks/useDatasetById.ts):
 
 ```typescript
-import { useTypedLoaderData } from 'remix-typedjson'
+import { useLoaderData } from 'react-router'
 import { GetDatasetByIdV2Query } from 'app/__generated_v2__/graphql'
 
 export function useDatasetById() {
-  const { v2 } = useTypedLoaderData<{
+  const { v2 } = useLoaderData<{
     v2: GetDatasetByIdV2Query
   }>()
 
@@ -622,10 +623,10 @@ All GraphQL queries execute server-side for optimal performance and SEO.
 
 ### SSR Flow
 
-1. **Request arrives** → Remix loader executes on server
+1. **Request arrives** → React Router loader executes on server
 2. **GraphQL query** → Apollo Client fetches from API
-3. **Data returned** → Loader serializes to JSON
-4. **HTML rendered** → Remix renders React components with data
+3. **Data returned** → Loader returns a plain object, serialized with turbo-stream (single fetch)
+4. **HTML rendered** → React Router renders React components with data
 5. **Response sent** → Client receives fully-rendered HTML + data
 
 ### Benefits
@@ -648,7 +649,7 @@ import { useQuery } from '@apollo/client'
 // ✅ Always use server-side loaders
 export async function loader() {
   const { data } = await apolloClientV2.query({ ... })
-  return json(data)
+  return data
 }
 ```
 
@@ -741,10 +742,10 @@ pnpm data-portal build:codegen
 
 **Problem:** Type mismatch in loader data
 
-**Solution:** Ensure loader return type matches `useTypedLoaderData` type assertion
+**Solution:** Ensure loader return type matches the `useLoaderData` type parameter (prefer `useLoaderData<typeof loader>()` where possible)
 
 ## Next Steps
 
 - [State Management](../03-state/01-state-management.md) - Managing UI state with Jotai and URL state
 - [Styling System](../05-styling/01-styling-system.md) - Tailwind, CSS Modules, and MUI integration
-- [Remix Fundamentals](../01-routing/01-remix-fundamentals.md) - Server-side rendering and routing patterns
+- [React Router Fundamentals](../01-routing/01-react-router-fundamentals.md) - Server-side rendering and routing patterns
