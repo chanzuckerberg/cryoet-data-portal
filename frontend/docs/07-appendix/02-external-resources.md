@@ -10,7 +10,7 @@ This document provides links to external documentation for the technologies, fra
 
 | Technology     | Official Documentation                                          | Notes                                                                                                    |
 | -------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| **Node.js**    | [nodejs.org/docs](https://nodejs.org/docs/latest-v20.x/api/)    | LTS runtime environment. Version specified in `.nvmrc`.                                                  |
+| **Node.js**    | [nodejs.org/docs](https://nodejs.org/docs/latest-v24.x/api/)    | LTS runtime environment. Version specified in `.nvmrc`.                                                  |
 | **pnpm**       | [pnpm.io](https://pnpm.io/)                                     | Fast, disk-efficient package manager. Version specified in `package.json` engines field.                 |
 | **Remix**      | [remix.run/docs](https://remix.run/docs/)                       | Full-stack React framework with SSR. See also [Remix Fundamentals](../01-architecture/01-routing/01-remix-fundamentals.md). |
 | **React**      | [react.dev](https://react.dev/)                                 | UI library.                                                                                              |
