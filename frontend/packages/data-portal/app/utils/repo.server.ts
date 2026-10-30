@@ -2,11 +2,10 @@ import rehypePrism from '@mapbox/rehype-prism'
 import axios from 'axios'
 import { readFileSync } from 'fs'
 import { serialize } from 'next-mdx-remote/serialize'
-import { dirname, resolve } from 'path'
+import { resolve } from 'path'
 import remarkGfm from 'remark-gfm'
 import sectionize from 'remark-sectionize'
 import { typedjson } from 'remix-typedjson'
-import { fileURLToPath } from 'url'
 
 export interface RepoFile {
   content: string
@@ -51,9 +50,10 @@ export async function getLocalFileContent(
   path: string,
   options: { raw: boolean } = { raw: false },
 ) {
-  const scriptDir = dirname(fileURLToPath(import.meta.url))
+  // The server always runs from the data-portal package directory, so paths
+  // are resolved relative to the repository root three levels up.
   const mdxContent = readFileSync(
-    resolve(scriptDir, `../../../../${path}`),
+    resolve(process.cwd(), '../../..', path),
     'utf-8',
   )
 

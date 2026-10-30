@@ -6,6 +6,7 @@ on:
       - '**'
     paths:
       - .github/workflows/frontend-pr-e2e-tests.yml
+      - .github/workflows/frontend-e2e-tests.yml
       - frontend/**
 
 jobs:
