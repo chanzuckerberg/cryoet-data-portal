@@ -1,5 +1,35 @@
 # Changelog
 
+## [2.0.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.89.2...cryoet-data-portal-frontend-v2.0.0) (2026-10-31)
+
+
+### ⚠ BREAKING CHANGES
+
+* the app now runs on React Router v7 instead of Remix v2.
+
+### ✨ Features
+
+* migrate from Remix v2 to React Router v7 ([#2141](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2141)) ([72ff384](https://github.com/chanzuckerberg/cryoet-data-portal/commit/72ff38455034c7fd814801397243ff805b4107d1))
+
+
+### 🐞 Bug Fixes
+
+* **deps:** patch remaining advisories (proxy-addr, vite, graphql-codegen, i18next-http-backend) ([#2156](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2156)) ([10b447c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/10b447cb3c68d59c7e573e9c944114ea195509db))
+* **deps:** patch vulnerable transitive dependencies ([#2138](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2138)) ([c6c4ef3](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c6c4ef38707bcae23f79895059c504968fda287e))
+* **deps:** upgrade next-mdx-remote, chromatic-playwright and quicktype ([#2139](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2139)) ([b32439b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b32439b0f4e2ef9e2cfc6d6e17226935be537243))
+
+
+### 📝 Documentation
+
+* update frontend docs for React Router v7, Vite and Node 24 ([#2142](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2142)) ([eaa618d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/eaa618d115c85f76a7fae4302380c2ae01126aac))
+
+
+### 🧹 Miscellaneous Chores
+
+* migrate to Vite and enable Remix v3 future flags ([#2140](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2140)) ([91ec667](https://github.com/chanzuckerberg/cryoet-data-portal/commit/91ec66756059b05cbbf3bc50433c69e5d605fbe2))
+* upgrade Node.js from 20.10 to 24.21 (LTS) ([1e4a1bd](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1e4a1bd8f9d1d47cbd214a2b8bdfc53184fd1ae9))
+* upgrade Node.js to 24 LTS ([#2137](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2137)) ([1e4a1bd](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1e4a1bd8f9d1d47cbd214a2b8bdfc53184fd1ae9))
+
 ## [1.89.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.89.1...cryoet-data-portal-frontend-v1.89.2) (2026-09-14)
 
 
